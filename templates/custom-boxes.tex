@@ -1,0 +1,129 @@
+% Configuración personalizada de cajas para documentos técnicos
+% Usando tcolorbox con iconos FontAwesome
+
+\usepackage{tcolorbox}
+\usepackage{fontawesome5}
+
+% Definir colores personalizados
+\definecolor{infocolor}{RGB}{58, 135, 173}
+\definecolor{warningcolor}{RGB}{245, 166, 35}
+\definecolor{errorcolor}{RGB}{208, 2, 27}
+\definecolor{successcolor}{RGB}{40, 167, 69}
+
+% Caja de información
+\newtcolorbox{info-box}{
+  colback=infocolor!10,
+  colframe=infocolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{infocolor}{\Large\faInfoCircle}\enspace}
+}
+
+% Caja de advertencia
+\newtcolorbox{warning-box}{
+  colback=warningcolor!10,
+  colframe=warningcolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{warningcolor}{\Large\faExclamationTriangle}\enspace}
+}
+
+% Caja de error
+\newtcolorbox{error-box}{
+  colback=errorcolor!10,
+  colframe=errorcolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{errorcolor}{\Large\faTimes}\enspace}
+}
+
+% Caja de éxito
+\newtcolorbox{success-box}{
+  colback=successcolor!10,
+  colframe=successcolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{successcolor}{\Large\faCheck}\enspace}
+}
+
+% Configuración de highlighting para código Cisco IOS
+\lstdefinelanguage{cisco-ios}{
+  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, security, range, default-gateway},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  comment=[l]{!},
+  commentstyle=\color{gray}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+% Estilo para código bash/shell
+\lstdefinelanguage{bash}{
+  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={-c, -i, -f, -u, -l, -y, --version},
+  ndkeywordstyle=\color{purple}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=true,
+  comment=[l]{\#},
+  commentstyle=\color{gray}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+% Configuración general de listings
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  framerule=0pt,
+  frameround=tttt,
+  rulecolor=\color{gray!30},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=2,
+  captionpos=b
+}

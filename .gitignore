@@ -43,8 +43,7 @@ yarn-error.log*
 *.bcf
 *.run.xml
 
-# Pandoc / Quarto / static site build artifacts
-.quarto/
+# Pandoc / static site build artifacts
 _site/
 _book/
 _cache/
@@ -74,5 +73,3 @@ htmlcov/
 # Ignore large generated PDFs in examples/build directories
 **/document.pdf
 Eisvogel-3.2.0/**/document.pdf
-
-/.quarto/

@@ -1,0 +1,158 @@
+# Template base para Eisvogel - Redes de Computadoras 2
+# Este archivo contiene la configuración base que se reutiliza en todas las prácticas
+
+# Configuración de documentación técnica
+lang: "es"
+papersize: letter
+documentclass: scrartcl
+classoption: ["oneside", "open=any"]
+geometry: "top=2cm, bottom=2.5cm, left=2cm, right=2cm"
+fontsize: 11pt
+linestretch: 1.2
+
+# Configuración de colores institucionales
+colorlinks: true
+linkcolor: NavyBlue
+urlcolor: NavyBlue
+citecolor: NavyBlue
+
+# Configuración de Eisvogel
+template: eisvogel
+
+# Configuración de portada
+titlepage: true
+titlepage-color: "D8D8D8"
+titlepage-text-color: "333333"
+titlepage-rule-color: "B8860B"
+titlepage-rule-height: 4
+titlepage-logo: "../FIE-Logo-Oro.png"
+logo-width: 35mm
+
+# Configuración de backgrounds
+page-background: "../Eisvogel-3.2.0/examples/title-page-background/backgrounds/background5.pdf"
+
+# Configuración de headers y footers
+header-left: "\\hspace{1cm}"
+header-center: "Redes de Computadoras 2"
+header-right: "Página \\thepage"
+footer-left: "\\thetitle"
+footer-center: "UMSNH - Facultad de Ingeniería Eléctrica"
+footer-right: "\\thedate"
+
+# Configuración de tablas
+table-use-row-colors: true
+tables: true
+
+# Configuración de código
+listings: true
+listings-no-page-break: true
+code-block-font-size: \footnotesize
+
+# Configuración de índices
+toc: true
+toc-depth: 3
+lof: true
+lot: true
+
+# Configuración de bibliografía
+bibliography: referencias.bib
+csl: ieee.csl
+
+# Configuración de cajas personalizadas con tcolorbox
+header-includes:
+- |
+  ```{=latex}
+  \usepackage{tcolorbox}
+  \usepackage{fontawesome5}
+  
+  % Caja de información
+  \newtcolorbox{info-box}{
+    colback=cyan!5!white,
+    colframe=cyan!60!black,
+    arc=2pt,
+    outer arc=2pt,
+    leftrule=4pt,
+    rightrule=0pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt,
+    before upper={\parindent15pt\noindent\textcolor{cyan!60!black}{\faInfoCircle}\enspace}
+  }
+  
+  % Caja de advertencia
+  \newtcolorbox{warning-box}{
+    colback=orange!10!white,
+    colframe=orange!80!black,
+    arc=2pt,
+    outer arc=2pt,
+    leftrule=4pt,
+    rightrule=0pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt,
+    before upper={\parindent15pt\noindent\textcolor{orange!80!black}{\faExclamationTriangle}\enspace}
+  }
+  
+  % Caja de error
+  \newtcolorbox{error-box}{
+    colback=red!10!white,
+    colframe=red!75!black,
+    arc=2pt,
+    outer arc=2pt,
+    leftrule=4pt,
+    rightrule=0pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt,
+    before upper={\parindent15pt\noindent\textcolor{red!75!black}{\faTimes}\enspace}
+  }
+  
+  % Caja de éxito
+  \newtcolorbox{success-box}{
+    colback=green!10!white,
+    colframe=green!60!black,
+    arc=2pt,
+    outer arc=2pt,
+    leftrule=4pt,
+    rightrule=0pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt,
+    before upper={\parindent15pt\noindent\textcolor{green!60!black}{\faCheck}\enspace}
+  }
+  
+  % Configuración de highlighting para código Cisco
+  \lstdefinelanguage{cisco-ios}{
+    keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, mode, security},
+    ndkeywordstyle=\color{darkgray}\bfseries,
+    identifierstyle=\color{black},
+    sensitive=false,
+    comment=[l]{\#},
+    commentstyle=\color{gray}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]',
+    morestring=[b]"
+  }
+  ```
+
+# Configuración de entornos pandoc-latex
+pandoc-latex-environment:
+  tcolorbox: [box]
+  info-box: [info]
+  warning-box: [warning]
+  error-box: [error]
+  success-box: [success]

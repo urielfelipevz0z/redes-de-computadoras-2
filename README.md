@@ -12,26 +12,23 @@ Este repositorio contiene la documentación completa de las prácticas de labora
 ```
 Redes-de-Computadoras-2/
 ├── .github/
-│   └── copilot-instructions.md    # Instrucciones para GitHub Copilot
-├── logo-fie.png                   # Logo institucional
-├── practicas/                     # Directorio principal de prácticas
+│   └── copilot-instructions.md             # Instrucciones para GitHub Copilot
+├── logo-fie.png                            # Logo institucional
+├── practicas/                              # Directorio principal de prácticas
 │   └── practica-01-nombre-práctica/
-│       ├── practica-01-mac-flooding.qmd  # Documento principal
-│       ├── README.md                     # Documentación específica
-│       ├── base-configs/                 # Configuraciones iniciales
-│       ├── configs/                      # Configuraciones finales
-│       ├── images/                       # Capturas y diagramas
-│       ├── scripts/                      # Scripts de automatización
-│       └── versions/                     # Versiones intermedias
-├── templates/                            # Plantillas reutilizables
-│   └── quarto-templates.md               # Templates de Quarto
-└── README.md                      # Este archivo
+│       ├── practica-01-nombre-práctica.md  # Documento principal
+│       ├── base-configs/                   # Configuraciones iniciales
+│       ├── configs/                        # Configuraciones finales
+│       ├── images/                         # Capturas y diagramas
+│       └── topologies/                     # Topologías de red
+├── templates/                              # Plantillas reutilizables
+└── README.md                               # Este archivo
 ```
 
 ## Metodología de Documentación
 
 ### Framework Tecnológico
-- **Quarto Markdown**: Documentación científica y técnica
+- **Pandoc Markdown**: Documentación científica y técnica
 - **Eisvogel Template**: Plantilla LaTeX para PDFs profesionales
 - **Mermaid**: Diagramas de red y topologías
 - **GitHub**: Control de versiones y colaboración
