@@ -109,7 +109,7 @@
   morestring=[b]"
 }
 
-% Configuración general de listings
+% Configuración general de listings - corregir font size
 \lstset{
   basicstyle=\footnotesize\ttfamily,
   backgroundcolor=\color{gray!10},
@@ -125,5 +125,21 @@
   breaklines=true,
   breakatwhitespace=false,
   tabsize=2,
-  captionpos=b
+  captionpos=b,
+  % Configuración para evitar overflow de páginas
+  breaklines=true,
+  prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+  frame=single,
+  framesep=3pt,
+  xleftmargin=3pt,
+  xrightmargin=3pt
 }
+
+% Configuración para mantener proporción de imágenes
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>0.8\textheight 0.8\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Configuración global para todas las imágenes
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}

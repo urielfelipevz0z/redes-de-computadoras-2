@@ -15,10 +15,14 @@ author:
   - "Euler Molina Martínez"
 
 # Configuración de portada personalizada
+titlepage: true
+titlepage-color: "D8D8D8"
 titlepage-text-color: "FFFFFF"
 titlepage-rule-color: "B8860B"
 titlepage-rule-height: 0
-titlepage-background: "../backgrounds/title-background.pdf"
+titlepage-background: "../../Eisvogel-3.2.0/examples/title-page-custom/background.pdf"
+titlepage-logo: "../../FIE-Logo-Oro.png"
+logo-width: 50mm
 
 # Metadatos adicionales para portada
 keywords: [Redes, Seguridad, Cisco, CCNA, Laboratorio]
