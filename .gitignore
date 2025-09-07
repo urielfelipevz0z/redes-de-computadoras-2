@@ -1,0 +1,78 @@
+# General OS
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+# JetBrains project files
+*.iml
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+venv/
+env/
+ENV/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# LaTeX build artifacts (keep source .tex tracked)
+*.aux
+*.bbl
+*.blg
+*.brf
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.xdv
+*.bcf
+*.run.xml
+
+# Pandoc / Quarto / static site build artifacts
+.quarto/
+_site/
+_book/
+_cache/
+_render/
+
+# Jupyter
+.ipynb_checkpoints
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Archives and binaries
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Misc
+*.class
+*.jar
+.coverage
+htmlcov/
+
+# Ignore large generated PDFs in examples/build directories
+**/document.pdf
+Eisvogel-3.2.0/**/document.pdf
+
+/.quarto/

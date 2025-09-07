@@ -1,0 +1,47 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Ensure LF for scripts
+*.sh text eol=lf
+
+# Text formats
+*.md text
+*.qmd text
+*.tex text
+*.bib text
+*.yaml text
+*.yml text
+*.json text
+*.css text
+*.js text
+*.py text
+
+# Treat common binary assets as binary (no diffs, no CRLF conversion)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.tgz binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+
+# Mark large generated artifacts as export-ignore (won't be included in archive downloads)
+/examples/** export-ignore
+/Eisvogel-3.2.0/examples/** export-ignore
+**/document.pdf export-ignore
+
+# Reduce noise in GitHub linguist by marking generated/third-party assets
+Eisvogel-3.2.0/** linguist-vendored
+templates/** linguist-vendored
+practicas/** linguist-generated
+
+# Ensure images and PDFs are not treated as text
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.pdf -text
