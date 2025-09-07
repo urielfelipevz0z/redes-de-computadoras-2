@@ -17,7 +17,7 @@ professor: "M.C. Manuel Eduardo Sánchez Solchaga"
 # Configuración del documento
 lang: "es"
 papersize: letter
-geometry: "top=2cm, bottom=2.5cm, left=2cm, right=2cm"
+geometry: "margin=2cm"
 fontsize: 11pt
 
 # Configuración de colores
@@ -66,6 +66,7 @@ equipment:
 
 # Configuración de cajas personalizadas
 pandoc-latex-environment:
+  tcolorbox: [box]
   info-box: [info]
   warning-box: [warning]
   error-box: [error]
@@ -139,17 +140,6 @@ La práctica se realizó en un entorno de laboratorio aislado utilizando equipos
 
 ## Diagrama de Red
 
-```
-Topología de red implementada:
-
-PC A (192.168.1.10) -------|
-                           |
-PC B (192.168.1.20) -------+--- Switch Cisco 2960 (192.168.1.254)
-                           |     Fa0/1, Fa0/2, Fa0/3
-PC C (192.168.1.30) -------|
-   Atacante
-```
-
 La topología implementada consiste en un switch Cisco 2960 con tres dispositivos conectados: dos PCs para generar tráfico normal y un PC atacante equipado con herramientas de análisis de seguridad.
 
 ![Topología de red implementada](images/topology-diagram-01.png)
@@ -186,73 +176,6 @@ Memory: 65536K bytes of flash memory
 ## Configuración Base del Switch
 
 La configuración inicial del switch establece las conexiones básicas y parámetros de seguridad mínimos:
-
-```cisco-ios
-!
-! Cisco Switch 2960 - Configuración Inicial
-! Fecha: September 03, 2025
-! Práctica: MAC Flooding Attack
-! Versión: 1.0
-!
-service password-encryption
-!
-hostname SW1
-!
-enable secret cisco123
-!
-banner motd ^C
-**************************************************
-*  Laboratorio de Redes de Computadoras 2        *
-*    Práctica: MAC Flooding Attack               *
-**************************************************
-!
-interface FastEthernet0/1
- description "Conexion a PC A - 192.168.1.1"
- switchport mode access
- spanning-tree portfast
-!
-interface FastEthernet0/2
- description "Conexion a PC B - 192.168.1.2"
- switchport mode access
- spanning-tree portfast
-!
-interface FastEthernet0/3
- description "Conexion a PC C - 192.168.1.3 (Atacante)"
- switchport access vlan 1
- switchport mode access
- spanning-tree portfast
-!
-interface FastEthernet0/4
- shutdown
-!
-interface FastEthernet0/5
- shutdown
-!
-! [Continuación para puertos 6-24...]
-interface range FastEthernet0/6-24
- shutdown
-!
-interface GigabitEthernet0/1
- shutdown
-!
-interface GigabitEthernet0/2
- shutdown
-!
-ip default-gateway 192.168.1.1
-!
-!
-line con 0
- password cisco
- login
-line vty 0 4
- password cisco
- login
-line vty 5 15
- password cisco
- login
-!
-end
-```
 
 ## Verificación del Estado Inicial
 
