@@ -67,5 +67,6 @@ Redes-de-Computadoras-2/
 - **Universidad Michoacana de San Nicolás de Hidalgo**
 - **Licenciatura**: Ingeniería en Computación
 - **Materia**: Redes de Computadoras 2
+- **Profesor**: M.C. Manuel Eduardo Sánchez Solchaga
 
 ---
