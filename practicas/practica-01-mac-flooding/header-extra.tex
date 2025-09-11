@@ -1,0 +1,32 @@
+% Header / Footer template for practices
+% Placeholders: Redes de Computadoras 2, UMSNH - Facultad de Ingeniería Eléctrica, /home/beladen/Redes-de-Computadoras-2/Eisvogel-3.2.0/examples/title-page-background/backgrounds/background5.pdf, {{DATE}}
+% Add full-page background on every page (scaled to paper)
+\usepackage{graphicx,eso-pic}
+\makeatletter
+% Prefer scrlayer-scrpage (used by Eisvogel) when available; fallback to loading it
+\@ifpackageloaded{scrlayer-scrpage}{%
+  % scrlayer-scrpage already loaded by template: just set styles
+  \clearpairofpagestyles
+  % center header
+  \chead{Redes de Computadoras 2}
+  % right header with page number
+  \rohead{Página \pagemark}
+  % center footer
+  \cfoot{UMSNH - Facultad de Ingeniería Eléctrica}
+  % right footer with document date
+  \ofoot{\@date}
+}{%
+  % load scrlayer-scrpage if not present
+  \usepackage{scrlayer-scrpage}
+  \clearpairofpagestyles
+  \chead{Redes de Computadoras 2}
+  \rohead{Página \pagemark}
+  \cfoot{UMSNH - Facultad de Ingeniería Eléctrica}
+  \ofoot{\@date}
+}
+\makeatother
+
+% Add full-page background on every page (force fill of the page)
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{/home/beladen/Redes-de-Computadoras-2/Eisvogel-3.2.0/examples/title-page-background/backgrounds/background5.pdf}}%
+}

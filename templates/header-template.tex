@@ -1,0 +1,32 @@
+% Header / Footer template for practices
+% Placeholders: {{HEADER_CENTER}}, {{FOOTER_CENTER}}, {{BACKGROUND_PAGE}}, {{DATE}}
+% Add full-page background on every page (scaled to paper)
+\usepackage{graphicx,eso-pic}
+\makeatletter
+% Prefer scrlayer-scrpage (used by Eisvogel) when available; fallback to loading it
+\@ifpackageloaded{scrlayer-scrpage}{%
+  % scrlayer-scrpage already loaded by template: just set styles
+  \clearpairofpagestyles
+  % center header
+  \chead{{{HEADER_CENTER}}}
+  % right header with page number
+  \rohead{Página \pagemark}
+  % center footer
+  \cfoot{{{FOOTER_CENTER}}}
+  % right footer with document date
+  \ofoot{\@date}
+}{%
+  % load scrlayer-scrpage if not present
+  \usepackage{scrlayer-scrpage}
+  \clearpairofpagestyles
+  \chead{{{HEADER_CENTER}}}
+  \rohead{Página \pagemark}
+  \cfoot{{{FOOTER_CENTER}}}
+  \ofoot{\@date}
+}
+\makeatother
+
+% Add full-page background on every page (force fill of the page)
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{{{BACKGROUND_PAGE}}}}%
+}
