@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Script para generar PDF de prácticas usando Eisvogel
-# Uso: ./build.sh [archivo.md]
-
 set -e
 
 # Configuración
@@ -30,23 +27,13 @@ if [ ! -f "$INPUT_FILE" ]; then
 fi
 
 # Generar PDF con pandoc + Eisvogel
+# Toda la configuración está en el YAML front matter del markdown
 pandoc "$INPUT_FILE" \
     --from markdown \
     --to pdf \
     --template="$EISVOGEL_TEMPLATE" \
     --listings \
     --pdf-engine=xelatex \
-    --metadata lang=es \
-    --metadata papersize=letter \
-    --metadata documentclass=scrartcl \
-    --metadata classoption="oneside,open=any" \
-    --metadata geometry="top=2cm, bottom=2.5cm, left=2cm, right=2cm" \
-    --metadata fontsize=11pt \
-    --metadata linestretch=1.2 \
-    --metadata colorlinks=true \
-    --metadata linkcolor=NavyBlue \
-    --metadata urlcolor=NavyBlue \
-    --metadata citecolor=NavyBlue \
     --metadata titlepage=true \
     --metadata titlepage-color="D8D8D8" \
     --metadata titlepage-text-color="$TITLE_COLOR" \
@@ -54,22 +41,8 @@ pandoc "$INPUT_FILE" \
     --metadata titlepage-rule-height=0 \
     --metadata titlepage-background="$BACKGROUND_TITLE" \
     --metadata titlepage-logo="$LOGO" \
-    --metadata logo-width=35mm \
+    --metadata logo-width="70mm" \
     --metadata page-background="$BACKGROUND_PAGE" \
-    --metadata header-left="\\hspace{1cm}" \
-    --metadata header-center="Redes de Computadoras 2" \
-    --metadata header-right="Página \\thepage" \
-    --metadata footer-left="\\thetitle" \
-    --metadata footer-center="UMSNH - Facultad de Ingeniería Eléctrica" \
-    --metadata footer-right="\\thedate" \
-    --metadata table-use-row-colors=true \
-    --metadata tables=true \
-    --metadata listings-no-page-break=true \
-    --metadata code-block-font-size="\\footnotesize" \
-    --metadata toc=true \
-    --metadata toc-depth=3 \
-    --metadata lof=true \
-    --metadata lot=true \
     --include-in-header=../../templates/custom-boxes.tex \
     --filter /home/beladen/Redes-de-Computadoras-2/.venv/bin/pandoc-latex-environment \
     --output "$OUTPUT_FILE"

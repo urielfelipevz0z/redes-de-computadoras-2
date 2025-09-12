@@ -1,0 +1,34 @@
+# Template base optimizado para Redes de Computadoras 2
+# Este archivo contiene SOLO la configuración esencial
+
+# Configuración básica del documento
+lang: "es"
+papersize: letter
+documentclass: scrartcl
+classoption: ["oneside", "open=any"]
+geometry: "top=2cm, bottom=2.5cm, left=2cm, right=2cm"
+fontsize: 11pt
+linestretch: 1.2
+
+# Configuración de colores
+colorlinks: true
+linkcolor: NavyBlue
+urlcolor: NavyBlue
+citecolor: NavyBlue
+
+# Configuración de tablas y código
+table-use-row-colors: true
+tables: true
+listings: true
+listings-no-page-break: true
+
+# Configuración de índices
+toc: true
+toc-depth: 3
+
+# Configuración de cajas personalizadas
+pandoc-latex-environment:
+  info-box: [info]
+  warning-box: [warning]
+  error-box: [error]
+  success-box: [success]
