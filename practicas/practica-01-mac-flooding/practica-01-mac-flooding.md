@@ -78,7 +78,7 @@ Los switches de capa 2 mantienen una tabla de direcciones MAC (CAM table) que ma
 
 # Topología de Red Implementada
 
-![Topología de red implementada](images/topology-diagram-01.png){width=12cm}
+![Topología de red implementada](images/topology-diagram-01.png)
 
 **Configuración de direccionamiento:**
 
@@ -165,7 +165,7 @@ En PC C, ejecutar el ataque:
 sudo macof -i eno1 -s random -d random
 ```
 
-![Ejecución del comando macof en terminal](images/terminal-icmp-flooding-01.png){width=10cm}
+![Ejecución del comando macof en terminal](images/terminal-icmp-flooding-01.png)
 
 ## Monitoreo de la Tabla MAC
 
@@ -179,7 +179,7 @@ Total Mac Addresses In Use:          7992
 Total Mac Addresses Space Available:    48
 ```
 
-![Estado de la tabla MAC durante la saturación](images/ios-mac-table-flooded-01.png){width=10cm}
+![Estado de la tabla MAC durante la saturación](images/ios-mac-table-flooded-01.png)
 
 ::: warning
 **Punto crítico:** Cuando la tabla MAC se satura (8192 entradas), el switch actúa como hub, enviando tramas a todos los puertos.
@@ -191,7 +191,7 @@ Con macof ejecutándose, realizar ping entre PC A y PC B y capturar en PC C con 
 
 **Filtro Wireshark:** `icmp and (ip.src == 192.168.1.10 or ip.dst == 192.168.1.20)`
 
-![Captura de tráfico ICMP interceptado en Wireshark](images/wireshark-icmp-capture-01.png){width=12cm}
+![Captura de tráfico ICMP interceptado en Wireshark](images/wireshark-icmp-capture-01.png)
 
 ## Prueba con Tráfico UDP
 
@@ -207,7 +207,7 @@ echo "Mensaje secreto" | nc -u 192.168.1.20 1234
 
 **Captura en PC C:** Filtro `udp and ip.dst == 192.168.1.20`
 
-![Captura de tráfico UDP interceptado](images/wireshark-udp-capture-01.png){width=12cm}
+![Captura de tráfico UDP interceptado](images/wireshark-udp-capture-01.png)
 
 # Problemas Encontrados y Soluciones
 
