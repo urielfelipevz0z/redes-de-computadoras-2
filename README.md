@@ -7,24 +7,6 @@ Este repositorio contiene la documentación completa de las prácticas de labora
 - **Uriel Felipe Vázquez Orozco**
 - **Euler Molina Martínez**
 
-## Estructura del Repositorio
-
-```
-Redes-de-Computadoras-2/
-├── .github/
-│   └── copilot-instructions.md             # Instrucciones para GitHub Copilot
-├── logo-fie.png                            # Logo institucional
-├── practicas/                              # Directorio principal de prácticas
-│   └── practica-01-nombre-práctica/
-│       ├── practica-01-nombre-práctica.md  # Documento principal
-│       ├── base-configs/                   # Configuraciones iniciales
-│       ├── configs/                        # Configuraciones finales
-│       ├── images/                         # Capturas y diagramas
-│       └── topologies/                     # Topologías de red
-├── templates/                              # Plantillas reutilizables
-└── README.md                               # Este archivo
-```
-
 ## Metodología de Documentación
 
 ### Framework Tecnológico

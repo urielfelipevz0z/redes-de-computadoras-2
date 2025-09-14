@@ -8,7 +8,7 @@ Thumbs.db
 # JetBrains project files
 *.iml
 
-# Python
+# Python virtual environment
 __pycache__/
 *.py[cod]
 *.so
@@ -17,6 +17,8 @@ __pycache__/
 venv/
 env/
 ENV/
+pip-log.txt
+pip-delete-this-directory.txt
 
 # Node
 node_modules/
@@ -73,3 +75,41 @@ htmlcov/
 # Ignore large generated PDFs in examples/build directories
 **/document.pdf
 Eisvogel-3.2.0/**/document.pdf
+
+# Proyecto específico - Redes de Computadoras 2
+# Archivos temporales de compilación
+*.tmp
+*.temp
+*~
+
+# Archivos de backup
+*.bak
+*.backup
+*.orig
+
+# Logs de scripts
+*.log
+logs/
+
+# Archivos de configuración de red temporales
+*.cfg.backup
+*.cfg.tmp
+
+# Archivos de Packet Tracer temporales
+*.pkt.backup
+*.pkt~
+
+# GNS3 archivos temporales
+*.gns3project.backup
+project-files/
+
+# Wireshark archivos temporales
+*.pcapng.tmp
+
+# Directorios de trabajo temporal
+temp/
+tmp/
+build_temp/
+
+# Sistema de control de versiones de configuraciones
+versions/*.tmp

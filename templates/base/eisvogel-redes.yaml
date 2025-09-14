@@ -1,30 +1,21 @@
-# Template base optimizado para Redes de Computadoras 2
-# Este archivo contiene SOLO la configuración esencial
+---
+title: "Práctica 01: Análisis de Vulnerabilidad MAC Flooding"
+subtitle: "Implementación y Mitigación de Ataques de Inundación MAC en Switches Cisco"
+author: 
+  - "Uriel Felipe Vázquez Orozco"
+  - "Euler Molina Martínez"
+date: "Septiembre 06, 2025"
+subject: "Redes de Computadoras"
+keywords: [MAC Flooding, Seguridad de Redes, Cisco, Switch, CAM Table, dsniff, Wireshark]
 
-# Configuración básica del documento
-lang: "es"
-papersize: letter
-documentclass: scrartcl
-classoption: ["oneside", "open=any"]
-geometry: "top=2cm, bottom=2.5cm, left=2cm, right=2cm"
-fontsize: 11pt
-linestretch: 1.2
-
-# Configuración de colores
-colorlinks: true
-linkcolor: NavyBlue
-urlcolor: NavyBlue
-citecolor: NavyBlue
+# Información institucional
+institution: "Universidad Michoacana de San Nicolás de Hidalgo"
+faculty: "Facultad de Ingeniería Eléctrica"
+course: "Redes de Computadoras 2"
+professor: "M.C. Manuel Eduardo Sánchez Solchaga"
 
 # Configuración de tablas y código
-table-use-row-colors: true
-tables: true
 listings: true
-listings-no-page-break: true
-
-# Configuración de índices
-toc: true
-toc-depth: 3
 
 # Configuración de cajas personalizadas
 pandoc-latex-environment:
@@ -32,3 +23,4 @@ pandoc-latex-environment:
   warning-box: [warning]
   error-box: [error]
   success-box: [success]
+---
