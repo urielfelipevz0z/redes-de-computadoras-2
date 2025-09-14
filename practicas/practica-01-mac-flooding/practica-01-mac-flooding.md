@@ -14,26 +14,8 @@ faculty: "Facultad de Ingeniería Eléctrica"
 course: "Redes de Computadoras 2"
 professor: "M.C. Manuel Eduardo Sánchez Solchaga"
 
-# Configuración del documento
-lang: "es"
-papersize: letter
-documentclass: scrartcl
-classoption: ["oneside", "open=any"]
-geometry: "top=2cm, bottom=2.5cm, left=2cm, right=2cm"
-fontsize: 11pt
-linestretch: 1.2
-
-# Configuración de colores
-colorlinks: true
-linkcolor: NavyBlue
-urlcolor: NavyBlue
-citecolor: NavyBlue
-
 # Configuración de tablas y código
-table-use-row-colors: true
-tables: true
 listings: true
-listings-no-page-break: true
 
 # Configuración de cajas personalizadas
 pandoc-latex-environment:

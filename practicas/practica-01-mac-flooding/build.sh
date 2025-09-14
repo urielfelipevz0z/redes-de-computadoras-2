@@ -34,6 +34,17 @@ pandoc "$INPUT_FILE" \
     --template="$EISVOGEL_TEMPLATE" \
     --listings \
     --pdf-engine=xelatex \
+    --metadata lang=es \
+    --metadata papersize=letter \
+    --metadata documentclass=scrartcl \
+    --metadata classoption="oneside,open=any" \
+    --metadata geometry="top=2cm, bottom=2.5cm, left=2cm, right=2cm" \
+    --metadata fontsize=11pt \
+    --metadata linestretch=1.2 \
+    --metadata colorlinks=true \
+    --metadata linkcolor=NavyBlue \
+    --metadata urlcolor=NavyBlue \
+    --metadata citecolor=NavyBlue \
     --metadata titlepage=true \
     --metadata titlepage-color="D8D8D8" \
     --metadata titlepage-text-color="$TITLE_COLOR" \
@@ -43,6 +54,9 @@ pandoc "$INPUT_FILE" \
     --metadata titlepage-logo="$LOGO" \
     --metadata logo-width="70mm" \
     --metadata page-background="$BACKGROUND_PAGE" \
+    --metadata table-use-row-colors=true \
+    --metadata tables=true \
+    --metadata listings-no-page-break=true \
     --include-in-header=../../templates/custom-boxes.tex \
     --filter /home/beladen/Redes-de-Computadoras-2/.venv/bin/pandoc-latex-environment \
     --output "$OUTPUT_FILE"
