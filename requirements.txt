@@ -2,6 +2,9 @@
 # https://pypi.org/
 # Herramientas para procesamiento de archivos y automatización
 
+# Entorno de latex para pandoc
+pandoc-latex-environment==1.2.1.0
+
 # Manipulación de archivos y directorios
 pathlib2==2.3.7.post1
 

@@ -13,7 +13,8 @@ TITLE_COLOR="FFFFFF"
 RULE_COLOR="B8860B"  # Dorado FIE
 
 # Archivo de entrada
-INPUT_FILE="${1:-practica-01-mac-flooding.md}"
+MAIN_FILE=$(basename "$(pwd)").md
+INPUT_FILE="$MAIN_FILE"
 OUTPUT_FILE="${INPUT_FILE%.*}.pdf"
 
 echo "Generando PDF con Eisvogel..."
@@ -58,7 +59,7 @@ pandoc "$INPUT_FILE" \
     --metadata tables=true \
     --metadata listings-no-page-break=true \
     --include-in-header=../../templates/custom-boxes.tex \
-    --filter /home/beladen/Redes-de-Computadoras-2/.venv/bin/pandoc-latex-environment \
+    --filter /home/beladen/Redes-de-Computadoras-2/venv/bin/pandoc-latex-environment \
     --output "$OUTPUT_FILE"
 
 if [ $? -eq 0 ]; then
