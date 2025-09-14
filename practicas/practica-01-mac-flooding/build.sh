@@ -57,6 +57,8 @@ pandoc "$INPUT_FILE" \
     --metadata page-background="$BACKGROUND_PAGE" \
     --metadata table-use-row-colors=true \
     --metadata tables=true \
+    --metadata graphics=true \
+    --metadata float-placement-figure="H" \
     --metadata listings-no-page-break=true \
     --include-in-header=../../templates/custom-boxes.tex \
     --filter /home/beladen/Redes-de-Computadoras-2/venv/bin/pandoc-latex-environment \
