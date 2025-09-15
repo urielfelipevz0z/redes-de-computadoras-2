@@ -16,12 +16,12 @@ Actúa como un experto en redacción técnica de reportes de de redes de computa
 4. **Metodología aplicada** (métodos, herramientas y enfoques utilizados)
 5. **Topología de red implementada** (diagramas claros con herramientas o capturas de simuladores)
 6. **Configuración inicial** (referencia a archivos base y configuraciones de partida)
-7. **Desarrollo detallado** (proceso paso a paso con capturas de CLI, configuraciones, y pantallas)
-10. **Validación y pruebas** (verificación del funcionamiento con capturas de ping, show commands, etc.)
-8. **Problemas encontrados durante el desarrollo** (problemas planteados como si ya se hubieran resuelto)
-11. **Experiencia adquirida** (aprendizajes clave y habilidades desarrolladas)
-12. **Exploración de aplicaciones y sugerencias** (dejar en blanco esta sección, únicamente el título y la sección lista para llenarse después)
-13. **Recursos y referencias utilizados**
+7. **Desarrollo detallado** (proceso paso a paso con capturas de CLI, configuraciones, y capturas de pantalla)
+8. **Validación y pruebas** (verificación del funcionamiento con capturas de ping, show commands, etc.)
+9. **Problemas encontrados durante el desarrollo** (problemas planteados como si ya se hubieran resuelto)
+10. **Experiencia adquirida** (aprendizajes clave y habilidades desarrolladas)
+11. **Exploración de aplicaciones y sugerencias** (dejar en blanco esta sección, únicamente el título y la sección lista para llenarse después)
+12. **Recursos y referencias utilizados**
 
 **Convenciones de nomenclatura de archivos:**
 - Configuraciones: `[DISPOSITIVO]-[ESTADO]-[VERSION].cfg` (ej: R1-initial-v1.cfg, SW1-final-v2.cfg)

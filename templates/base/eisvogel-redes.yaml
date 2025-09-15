@@ -1,12 +1,12 @@
 ---
-title: "Práctica 01: Análisis de Vulnerabilidad MAC Flooding"
-subtitle: "Implementación y Mitigación de Ataques de Inundación MAC en Switches Cisco"
+title: "Práctica XX: Nombre de la Práctica"
+subtitle: "Subtítulo de la Práctica"
 author: 
   - "Uriel Felipe Vázquez Orozco"
   - "Euler Molina Martínez"
 date: "Septiembre 06, 2025"
 subject: "Redes de Computadoras"
-keywords: [MAC Flooding, Seguridad de Redes, Cisco, Switch, CAM Table, dsniff, Wireshark]
+keywords: [Seguridad de Redes, Cisco, Switch]
 
 # Información institucional
 institution: "Universidad Michoacana de San Nicolás de Hidalgo"
@@ -23,4 +23,6 @@ pandoc-latex-environment:
   warning-box: [warning]
   error-box: [error]
   success-box: [success]
+  cisco-ios: [cisco-ios]
+  bash: [bash]
 ---
