@@ -8,6 +8,9 @@ Thumbs.db
 # JetBrains project files
 *.iml
 
+# Practice PDFs
+practicas/*.pdf
+
 # Python virtual environment
 __pycache__/
 *.py[cod]

@@ -4,6 +4,13 @@
 \usepackage{tcolorbox}
 \usepackage{fontawesome5}
 
+% Redefinir includegraphics para limitar el tamaño de las imágenes
+\usepackage{graphicx}
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \oldincludegraphics[width=\linewidth,#1]{#2}%
+}
+
 % Definir colores personalizados
 \definecolor{infocolor}{RGB}{58, 135, 173}
 \definecolor{warningcolor}{RGB}{245, 166, 35}

@@ -23,8 +23,8 @@ pandoc-latex-environment:
   warning-box: [warning]
   error-box: [error]
   success-box: [success]
-  cisco-ios: [cisco-ios]
-  bash: [bash]
+  cisco-ios-box: [cisco-ios]
+  bash-box: [bash]
 ---
 
 # Resumen Ejecutivo
