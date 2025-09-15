@@ -1,7 +1,8 @@
 % Configuración personalizada de cajas para documentos técnicos
 % Usando tcolorbox con iconos FontAwesome
 
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins,listings,breakable}
 \usepackage{fontawesome5}
 
 % Redefinir includegraphics para limitar el tamaño de las imágenes
@@ -11,11 +12,23 @@
   \oldincludegraphics[width=\linewidth,#1]{#2}%
 }
 
-% Definir colores personalizados
+% Definir colores personalizados para notificaciones
 \definecolor{infocolor}{RGB}{58, 135, 173}
 \definecolor{warningcolor}{RGB}{245, 166, 35}
 \definecolor{errorcolor}{RGB}{208, 2, 27}
 \definecolor{successcolor}{RGB}{40, 167, 69}
+
+% Definir colores para terminales (más realistas)
+\definecolor{ciscoioscolor}{RGB}{0, 51, 102}        % Azul oscuro Cisco
+\definecolor{ciscoiosbg}{RGB}{240, 248, 255}       % Fondo azul muy claro
+
+\definecolor{bashcolor}{RGB}{45, 45, 45}           % Negro/gris oscuro para borde
+\definecolor{bashbg}{RGB}{48, 10, 36}              % Fondo morado/negro Linux
+\definecolor{bashtext}{RGB}{255, 255, 255}         % Texto blanco
+
+\definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro para Cisco
+\definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
+\definecolor{bashkeyword}{RGB}{255, 255, 0}        % Amarillo para keywords Bash
 
 % Caja de información
 \newtcolorbox{info-box}{
@@ -85,45 +98,131 @@
   before upper={\parindent15pt\noindent\textcolor{successcolor}{\Large\faCheck}\enspace}
 }
 
-% Configuración de highlighting para código Cisco IOS
+% Configuración de highlighting mejorado para código Cisco IOS
 \lstdefinelanguage{cisco-ios}{
-  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, security, range, default-gateway},
-  ndkeywordstyle=\color{darkgray}\bfseries,
-  identifierstyle=\color{black},
+  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, exit},
+  keywordstyle=\color{ciscokeyword}\bfseries,
+  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, security, range, default-gateway, dynamic, static, count},
+  ndkeywordstyle=\color{blue!70}\bfseries,
+  identifierstyle=\color{ciscotext},
   sensitive=false,
   comment=[l]{\#},
   comment=[l]{!},
-  commentstyle=\color{gray}\ttfamily,
+  commentstyle=\color{green!60}\ttfamily,
   stringstyle=\color{red}\ttfamily,
   morestring=[b]',
-  morestring=[b]"
+  morestring=[b]",
+  basicstyle=\color{ciscotext}\ttfamily\footnotesize
 }
 
-% Estilo para código bash/shell
+% Estilo mejorado para código bash/shell
 \lstdefinelanguage{bash}{
-  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={-c, -i, -f, -u, -l, -y, --version},
-  ndkeywordstyle=\color{purple}\bfseries,
-  identifierstyle=\color{black},
+  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top, htop},
+  keywordstyle=\color{bashkeyword}\bfseries,
+  ndkeywords={-c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6},
+  ndkeywordstyle=\color{cyan}\bfseries,
+  identifierstyle=\color{bashtext},
   sensitive=true,
   comment=[l]{\#},
-  commentstyle=\color{gray}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
+  commentstyle=\color{green}\ttfamily,
+  stringstyle=\color{magenta}\ttfamily,
   morestring=[b]',
-  morestring=[b]"
+  morestring=[b]",
+  basicstyle=\color{bashtext}\ttfamily\footnotesize
 }
 
-% Configuración general de listings
+% Terminal Cisco IOS - Estilo realista con prompt
+\newtcolorbox{cisco-ios-box}{
+  enhanced,
+  colback=ciscoiosbg,
+  colframe=ciscoioscolor,
+  arc=4pt,
+  outer arc=4pt,
+  left=12pt,
+  right=12pt,
+  top=12pt,
+  bottom=12pt,
+  fonttitle=\bfseries\color{white},
+  title={\faNetworkWired\enspace Cisco IOS Terminal},
+  coltitle=white,
+  colbacktitle=ciscoioscolor,
+  attach boxed title to top left={yshift=-3mm,xshift=6mm},
+  boxed title style={arc=3pt},
+  breakable,
+  pad at break*=2mm,
+  fontupper=\color{ciscotext}\ttfamily\footnotesize,
+  listing only,
+  listing options={
+    language=cisco-ios,
+    basicstyle=\color{ciscotext}\ttfamily\footnotesize,
+    backgroundcolor={},
+    numbers=none,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=false,
+    breakindent=1em,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    tabsize=2,
+    frame=none,
+    xleftmargin=0pt,
+    xrightmargin=0pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    keywordstyle=\color{ciscokeyword}\bfseries,
+    ndkeywordstyle=\color{blue!70}\bfseries,
+    commentstyle=\color{green!60}\ttfamily,
+    stringstyle=\color{red}\ttfamily
+  }
+}
+
+% Terminal Bash/Linux - Estilo realista con prompt  
+\newtcolorbox{bash-box}{
+  enhanced,
+  colback=bashbg,
+  colframe=bashcolor,
+  arc=4pt,
+  outer arc=4pt,
+  left=12pt,
+  right=12pt,
+  top=12pt,
+  bottom=12pt,
+  fonttitle=\bfseries\color{white},
+  title={\faTerminal\enspace Linux Terminal},
+  coltitle=green,
+  colbacktitle=bashcolor,
+  attach boxed title to top left={yshift=-3mm,xshift=6mm},
+  boxed title style={arc=3pt},
+  breakable,
+  pad at break*=2mm,
+  fontupper=\color{bashtext}\ttfamily\footnotesize,
+  listing only,
+  listing options={
+    language=bash,
+    basicstyle=\color{bashtext}\ttfamily\footnotesize,
+    backgroundcolor={},
+    numbers=none,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=false,
+    breakindent=1em,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    tabsize=2,
+    frame=none,
+    xleftmargin=0pt,
+    xrightmargin=0pt,
+    aboveskip=0pt,
+    belowskip=0pt,
+    keywordstyle=\color{bashkeyword}\bfseries,
+    ndkeywordstyle=\color{cyan}\bfseries,
+    commentstyle=\color{green}\ttfamily,
+    stringstyle=\color{magenta}\ttfamily
+  }
+}
+
+% Configuración global mejorada de listings
 \lstset{
   basicstyle=\footnotesize\ttfamily,
-  backgroundcolor=\color{gray!10},
-  frame=single,
-  framerule=0pt,
-  frameround=tttt,
-  rulecolor=\color{gray!30},
+  backgroundcolor=\color{white},
   numbers=left,
   numberstyle=\tiny\color{gray},
   stepnumber=1,
@@ -135,6 +234,9 @@
   postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
   tabsize=2,
   captionpos=b,
-  xleftmargin=2em,
-  xrightmargin=1em
+  xleftmargin=0em,
+  xrightmargin=0em,
+  frame=none,
+  aboveskip=5pt,
+  belowskip=5pt
 }
