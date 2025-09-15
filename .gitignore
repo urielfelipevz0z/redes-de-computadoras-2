@@ -5,11 +5,9 @@ Thumbs.db
 # IDEs and editors
 .vscode/
 .idea/
+
 # JetBrains project files
 *.iml
-
-# Practice PDFs
-practicas/*.pdf
 
 # Python virtual environment
 __pycache__/
