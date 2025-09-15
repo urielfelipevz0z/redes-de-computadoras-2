@@ -21,14 +21,18 @@
 % Definir colores para terminales (más realistas)
 \definecolor{ciscoioscolor}{RGB}{0, 51, 102}        % Azul oscuro Cisco
 \definecolor{ciscoiosbg}{RGB}{240, 248, 255}       % Fondo azul muy claro
+\definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro base para Cisco
+\definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
+\definecolor{ciscocomment}{RGB}{0, 128, 0}         % Verde para comentarios Cisco
 
 \definecolor{bashcolor}{RGB}{45, 45, 45}           % Negro/gris oscuro para borde
 \definecolor{bashbg}{RGB}{48, 10, 36}              % Fondo morado/negro Linux
 \definecolor{bashtext}{RGB}{255, 255, 255}         % Texto blanco
 
-\definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro para Cisco
-\definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
-\definecolor{bashkeyword}{RGB}{255, 255, 0}        % Amarillo para keywords Bash
+\definecolor{bashkeyword}{RGB}{97, 175, 239}       % Azul claro para keywords Bash
+\definecolor{bashstring}{RGB}{152, 195, 121}       % Verde para strings
+\definecolor{bashcomment}{RGB}{92, 99, 112}        % Gris para comentarios
+\definecolor{bashprompt}{RGB}{224, 108, 117}       % Rojo claro para prompt
 
 % Caja de información
 \newtcolorbox{info-box}{
@@ -36,7 +40,7 @@
   colframe=infocolor,
   arc=2pt,
   outer arc=2pt,
-  leftrule=4pt,
+  leftrule=4pt,q
   rightrule=0pt,
   toprule=0pt,
   bottomrule=0pt,
@@ -100,35 +104,41 @@
 
 % Configuración de highlighting mejorado para código Cisco IOS
 \lstdefinelanguage{cisco-ios}{
-  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, exit},
+  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, exit, copy, running-config, startup-config, tftp, flash, reload, write, memory, erase},
   keywordstyle=\color{ciscokeyword}\bfseries,
-  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, security, range, default-gateway, dynamic, static, count},
+  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, security, range, default-gateway, dynamic, static, count, version, brief, detail, trunk, native, allowed},
   ndkeywordstyle=\color{blue!70}\bfseries,
   identifierstyle=\color{ciscotext},
   sensitive=false,
   comment=[l]{\#},
   comment=[l]{!},
-  commentstyle=\color{green!60}\ttfamily,
+  commentstyle=\color{ciscocomment}\ttfamily,
   stringstyle=\color{red}\ttfamily,
   morestring=[b]',
   morestring=[b]",
-  basicstyle=\color{ciscotext}\ttfamily\footnotesize
+  basicstyle=\color{ciscotext}\ttfamily\footnotesize,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=flexible
 }
 
 % Estilo mejorado para código bash/shell
 \lstdefinelanguage{bash}{
-  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top, htop},
+  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top, htop, systemctl, service, iptables, tcpdump, nmap, curl, wget},
   keywordstyle=\color{bashkeyword}\bfseries,
-  ndkeywords={-c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6},
+  ndkeywords={-c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6, --help, -v, -a, -la, -lh, -rf},
   ndkeywordstyle=\color{cyan}\bfseries,
   identifierstyle=\color{bashtext},
   sensitive=true,
   comment=[l]{\#},
-  commentstyle=\color{green}\ttfamily,
-  stringstyle=\color{magenta}\ttfamily,
+  commentstyle=\color{bashcomment}\ttfamily,
+  stringstyle=\color{bashstring}\ttfamily,
   morestring=[b]',
   morestring=[b]",
-  basicstyle=\color{bashtext}\ttfamily\footnotesize
+  basicstyle=\color{bashtext}\ttfamily\footnotesize,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=flexible
 }
 
 % Terminal Cisco IOS - Estilo realista con prompt
@@ -150,32 +160,29 @@
   boxed title style={arc=3pt},
   breakable,
   pad at break*=2mm,
-  fontupper=\color{ciscotext}\ttfamily\footnotesize,
   listing only,
   listing options={
     language=cisco-ios,
     basicstyle=\color{ciscotext}\ttfamily\footnotesize,
-    backgroundcolor={},
+    backgroundcolor=\color{ciscoiosbg},
     numbers=none,
     showstringspaces=false,
     breaklines=true,
-    breakatwhitespace=false,
+    breakatwhitespace=true,
     breakindent=1em,
     postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-    tabsize=2,
+    tabsize=4,
     frame=none,
     xleftmargin=0pt,
     xrightmargin=0pt,
     aboveskip=0pt,
     belowskip=0pt,
-    keywordstyle=\color{ciscokeyword}\bfseries,
-    ndkeywordstyle=\color{blue!70}\bfseries,
-    commentstyle=\color{green!60}\ttfamily,
-    stringstyle=\color{red}\ttfamily
+    columns=flexible,
+    keepspaces=true
   }
 }
 
-% Terminal Bash/Linux - Estilo realista con prompt  
+% Terminal Bash/Linux - Estilo realista con prompt ccna@
 \newtcolorbox{bash-box}{
   enhanced,
   colback=bashbg,
@@ -194,32 +201,29 @@
   boxed title style={arc=3pt},
   breakable,
   pad at break*=2mm,
-  fontupper=\color{bashtext}\ttfamily\footnotesize,
   listing only,
   listing options={
     language=bash,
     basicstyle=\color{bashtext}\ttfamily\footnotesize,
-    backgroundcolor={},
+    backgroundcolor=\color{bashbg},
     numbers=none,
     showstringspaces=false,
     breaklines=true,
-    breakatwhitespace=false,
+    breakatwhitespace=true,
     breakindent=1em,
     postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-    tabsize=2,
+    tabsize=4,
     frame=none,
     xleftmargin=0pt,
     xrightmargin=0pt,
     aboveskip=0pt,
     belowskip=0pt,
-    keywordstyle=\color{bashkeyword}\bfseries,
-    ndkeywordstyle=\color{cyan}\bfseries,
-    commentstyle=\color{green}\ttfamily,
-    stringstyle=\color{magenta}\ttfamily
+    columns=flexible,
+    keepspaces=true
   }
 }
 
-% Configuración global mejorada de listings
+% Configuración global optimizada de listings
 \lstset{
   basicstyle=\footnotesize\ttfamily,
   backgroundcolor=\color{white},
@@ -232,11 +236,30 @@
   breakatwhitespace=true,
   breakindent=1.5em,
   postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-  tabsize=2,
+  tabsize=4,
   captionpos=b,
   xleftmargin=0em,
   xrightmargin=0em,
   frame=none,
   aboveskip=5pt,
-  belowskip=5pt
+  belowskip=5pt,
+  columns=flexible,
+  keepspaces=true
 }
+
+% Macros para facilitar el uso de terminales con prompts personalizados
+
+% Macro para comandos Cisco con prompt personalizado
+\newcommand{\ciscoprompt}[1]{{\color{ciscokeyword}\bfseries#1}}
+\newcommand{\ciscousermode}[1]{\ciscoprompt{#1>}}
+\newcommand{\ciscoprivmode}[1]{\ciscoprompt{#1\#}}
+\newcommand{\ciscoconfmode}[1]{\ciscoprompt{#1(config)\#}}
+\newcommand{\ciscointfmode}[2]{\ciscoprompt{#1(config-if)\#}}
+
+% Macro para comandos Linux con prompt ccna@
+\newcommand{\bashprompt}[1]{{\color{bashprompt}\bfseries ccna@#1:\$}}
+\newcommand{\rootprompt}[1]{{\color{red}\bfseries root@#1:\#}}
+
+% Ambientes simplificados para uso directo en markdown
+\newenvironment{ciscoios}{\begin{cisco-ios-box}}{\end{cisco-ios-box}}
+\newenvironment{linuxterm}{\begin{bash-box}}{\end{bash-box}}

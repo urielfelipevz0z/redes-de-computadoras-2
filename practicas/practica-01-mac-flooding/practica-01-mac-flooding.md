@@ -345,8 +345,7 @@ Crear scripts que monitoreen en tiempo real la tabla MAC y generen alertas.
 
 ---
 
-**Documento:** Práctica 01 - MAC Flooding Attack  
-**Versión:** 2.0 (Simplificada)  
+**Documento:** Práctica 01 - MAC Flooding Attack    
 **Fecha:** Septiembre 12, 2025  
 **Autores:** Uriel Felipe Vázquez Orozco, Euler Molina Martínez  
 **Materia:** Redes de Computadoras 2  
