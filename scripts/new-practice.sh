@@ -148,7 +148,7 @@ TITULO_TEMA=$(echo "$TEMA" | sed 's/-/ /g' | sed 's/\b\w/\u&/g')
 cat > "$FULL_PATH/${PRACTICA_DIR}.md" << EOF
 ---
 title: "Práctica ${PRACTICA_NUM}: ${TITULO_TEMA}"
-subtitle: "Implementación y Configuración de ${TITULO_TEMA}"
+subtitle: "${TITULO_TEMA}"
 author: 
   - "Uriel Felipe Vázquez Orozco"
   - "Euler Molina Martínez"
