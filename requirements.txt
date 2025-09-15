@@ -1,0 +1,40 @@
+# Dependencias para automatización de reportes de Redes de Computadoras 2
+# https://pypi.org/
+# Herramientas para procesamiento de archivos y automatización
+
+# Entorno de latex para pandoc
+pandoc-latex-environment==1.2.1.0
+
+# Manipulación de archivos y directorios
+pathlib2==2.3.7.post1
+
+# Procesamiento de templates y archivos de configuración
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+
+# Parsing y manipulación de archivos YAML
+PyYAML==6.0.2
+
+# Herramientas para archivos de configuración
+configparser==7.2.0
+
+# Utilidades para trabajar con fechas
+python-dateutil==2.9.0.post0
+
+# Herramientas para manipulación de texto
+regex==2025.9.1
+
+# CLI tools y argumentos
+click==8.2.1
+
+# Colorización de output en terminal
+colorama==0.4.6
+
+# Progress bars para scripts largos
+tqdm==4.67.1
+
+# Validación de archivos
+jsonschema==4.25.1
+
+# Utilidades básicas para Python
+six==1.17.0
