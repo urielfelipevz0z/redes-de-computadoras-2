@@ -1,39 +1,136 @@
-% Configuración personalizada de cajas para documentos técnicos
-% Usando tcolorbox con iconos FontAwesome
-
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,listings,breakable}
 \usepackage{fontawesome5}
+\usepackage{etoolbox}
 
-% Redefinir includegraphics para limitar el tamaño de las imágenes
 \usepackage{graphicx}
 \let\oldincludegraphics\includegraphics
 \renewcommand{\includegraphics}[2][]{%
   \oldincludegraphics[width=\linewidth,#1]{#2}%
 }
 
-% Definir colores personalizados para notificaciones
+% Colores para cajas de notificación
 \definecolor{infocolor}{RGB}{58, 135, 173}
 \definecolor{warningcolor}{RGB}{245, 166, 35}
 \definecolor{errorcolor}{RGB}{208, 2, 27}
 \definecolor{successcolor}{RGB}{40, 167, 69}
 
-% Definir colores para terminales (más realistas)
-\definecolor{ciscoioscolor}{RGB}{0, 51, 102}        % Azul oscuro Cisco
-\definecolor{ciscoiosbg}{RGB}{240, 248, 255}       % Fondo azul muy claro
-\definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro base para Cisco
-\definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
-\definecolor{ciscocomment}{RGB}{0, 128, 0}         % Verde para comentarios Cisco
-\definecolor{ciscovariable}{RGB}{128, 0, 128}      % Púrpura para variables en Cisco
+% Colores para terminal Cisco IOS (alto contraste)
+\definecolor{ciscoframe}{RGB}{0, 51, 102}
+\definecolor{ciscobg}{RGB}{248, 252, 255}
+\definecolor{ciscotext}{RGB}{0, 0, 0}
+\definecolor{ciscoblue}{RGB}{0, 0, 255}
+\definecolor{ciscogreen}{RGB}{0, 128, 0}
+\definecolor{ciscopurple}{RGB}{128, 0, 128}
+\definecolor{ciscored}{RGB}{220, 20, 60}
 
-\definecolor{bashcolor}{RGB}{45, 45, 45}           % Negro/gris oscuro para borde
-\definecolor{bashbg}{RGB}{48, 10, 36}              % Fondo morado/negro Linux
-\definecolor{bashtext}{RGB}{255, 255, 255}         % Texto blanco
-\definecolor{bashkeyword}{RGB}{97, 175, 239}       % Azul claro para keywords Bash
-\definecolor{bashstring}{RGB}{152, 195, 121}       % Verde para strings
-\definecolor{bashcomment}{RGB}{92, 99, 112}        % Gris para comentarios
-\definecolor{bashprompt}{RGB}{0, 255, 0}           % Verde clásico Linux para prompt
-\definecolor{bashvariable}{RGB}{255, 184, 108}     % Naranja para variables en Bash
+% Colores para terminal Linux/Bash (tema oscuro)
+\definecolor{linuxframe}{RGB}{60, 60, 60}
+\definecolor{linuxbg}{RGB}{40, 40, 40}
+\definecolor{linuxwhite}{RGB}{255, 255, 255}
+\definecolor{linuxcyan}{RGB}{0, 255, 255}
+\definecolor{linuxgreen}{RGB}{0, 255, 0}
+\definecolor{linuxyellow}{RGB}{255, 255, 0}
+\definecolor{linuxblue}{RGB}{100, 149, 237}
+\definecolor{linuxgray}{RGB}{169, 169, 169}
+
+\lstdefinestyle{custom-cisco-style}{
+  language=,
+  basicstyle=\ttfamily\footnotesize\color{ciscotext},
+  backgroundcolor=\color{ciscobg},
+  frame=none,
+  numbers=none,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2,
+  captionpos=none,
+  aboveskip=0pt,
+  belowskip=0pt,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+  framexleftmargin=0pt,
+  framexrightmargin=0pt,
+  % Palabras clave principales de Cisco IOS
+  morekeywords={
+    enable, configure, terminal, interface, ip, router, switch, vlan, 
+    show, clear, debug, no, shutdown, exit, end, copy, reload, write,
+    access, trunk, switchport, mode, spanning-tree, portfast,
+    line, con, vty, login, password, secret, hostname, banner, motd,
+    running-config, startup-config, memory, flash, tftp,
+    port-security, maximum, violation, aging, sticky, mac-address,
+    count, dynamic, static, learned, secure, restrict, protect
+  },
+  keywordstyle=\bfseries\color{ciscoblue},
+  % Palabras clave secundarias (interfaces, protocolos)
+  morekeywords=[2]{
+    FastEthernet, GigabitEthernet, Serial, Loopback, VLAN,
+    route, protocol, range, default-gateway, version, brief, detail,
+    trunk, native, allowed, auto, full, half, dot1q, active, passive,
+    UP, DOWN, administratively, connected, static, dynamic
+  },
+  keywordstyle=[2]\bfseries\color{ciscopurple},
+  % Strings y valores
+  stringstyle=\color{ciscored},
+  morestring=[b]",
+  morestring=[b]',
+  % Comentarios (líneas que empiezan con !)
+  morecomment=[l]{!},
+  commentstyle=\color{ciscogreen}\itshape,
+  % Detección de prompts
+  moredelim=[s][\bfseries\color{ciscoblue}]{Switch>}{},
+  moredelim=[s][\bfseries\color{ciscoblue}]{Switch\#}{},
+  moredelim=[s][\bfseries\color{ciscoblue}]{SW1>}{},
+  moredelim=[s][\bfseries\color{ciscoblue}]{SW1\#}{},
+  moredelim=[s][\bfseries\color{ciscoblue}]{Router>}{},
+  moredelim=[s][\bfseries\color{ciscoblue}]{Router\#}{}
+}
+
+\lstdefinestyle{custom-bash-style}{
+  language=,
+  basicstyle=\ttfamily\footnotesize\color{linuxwhite},
+  backgroundcolor=\color{linuxbg},
+  frame=none,
+  numbers=none,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2,
+  captionpos=none,
+  aboveskip=0pt,
+  belowskip=0pt,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+  framexleftmargin=0pt,
+  framexrightmargin=0pt,
+  % Comandos principales de Linux/Bash
+  morekeywords={
+    sudo, apt, update, install, which, ping, echo, cat, grep, head, tail,
+    chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top,
+    systemctl, service, iptables, tcpdump, nmap, curl, wget,
+    tshark, wireshark, macof, nc, if, then, else, fi, for, do, done,
+    while, until, case, function, export, source, exit, return
+  },
+  keywordstyle=\bfseries\color{linuxcyan},
+  % Opciones y flags
+  morekeywords=[2]{
+    -c, -i, -f, -u, -l, -y, -p, -n, -r, -4, -6, -v, -a, -h,
+    --help, --version, -la, -lh, -rf, --color, --recursive
+  },
+  keywordstyle=[2]\bfseries\color{linuxyellow},
+  % Strings
+  stringstyle=\color{linuxgreen},
+  morestring=[b]",
+  morestring=[b]',
+  % Comentarios
+  morecomment=[l]{\#},
+  commentstyle=\color{linuxgray}\itshape,
+  % Prompts de usuario
+  moredelim=[s][\bfseries\color{linuxgreen}]{ccna@}{$},
+  moredelim=[s][\bfseries\color{linuxgreen}]{root@}{$},
+  moredelim=[s][\bfseries\color{linuxgreen}]{user@}{$},
+  moredelim=[s][\bfseries\color{linuxgreen}]{ubuntu@}{$}
+}
 
 % Caja de información
 \newtcolorbox{info-box}{
@@ -103,83 +200,10 @@
   before upper={\parindent15pt\noindent\textcolor{successcolor}{\Large\faCheck}\enspace}
 }
 
-% Configuración de highlighting mejorado para código Cisco IOS
-\lstdefinelanguage{cisco-ios}{
-  keywords={
-    interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, 
-    show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, 
-    portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, 
-    exit, copy, running-config, startup-config, tftp, flash, reload, write, memory, 
-    erase, duplex, speed, encapsulation, dot1q, route, permit, deny, access-list,
-    network, mask, area, neighbor, remote-as, redistribute, default-information,
-    passive-interface, clock, rate, bandwidth, delay, eigrp, ospf, rip, bgp,
-    address, dhcp, pool, domain-name, domain, default-router, lease, logging,
-    service, ntp, server, source, aaa, authentication, authorization, accounting,
-    username, group, privilege, exec, transport, input, output, vrf, nat, inside,
-    outside, overload, list, snmp-server, community, location, contact, trap,
-    version, access-group, class-map, policy-map, match, set, service-policy
-  },
-  keywordstyle=\color{ciscokeyword}\bfseries,
-  ndkeywords={
-    FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, mac-address, route, 
-    protocol, port-security, range, default-gateway, dynamic, static, count, version, 
-    brief, detail, trunk, native, allowed, auto, full, half, dot1q, isl, active, 
-    passive, ethernet, atm, frame-relay, point-to-point, multipoint, broadcast, 
-    non-broadcast, ppp, hdlc, ietf, cisco, interval, connected, summary, rip, ospf, 
-    eigrp, bgp, area, as-number, network-type, cost, priority, hello, dead, stub, 
-    totally, nssa, lsa, lsdb, hello-interval, router-id, auto-cost, reference-bandwidth,
-    authentication, message-digest, key, md5, text, process-id, standard, extended,
-    named, time-range, established, log, reflect, user, local, radius, tacacs, enable
-  },
-  ndkeywordstyle=\color{blue!70}\bfseries,
-  identifierstyle=\color{ciscotext},
-  comment=[l]{!},
-  commentstyle=\color{ciscocomment}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]",
-  basicstyle=\color{ciscotext}\ttfamily\footnotesize,
-}
-
-% Estilo mejorado para código bash/shell
-\lstdefinelanguage{bash}{
-  keywords={
-    sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof,
-    grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, 
-    top, htop, systemctl, service, iptables, tcpdump, nmap, curl, wget, if, then, else, 
-    fi, for, do, done, while, until, case, esac, function, in, select, time, exit, 
-    return, export, alias, unalias, source, let, eval, exec, set, unset, declare, local,
-    readonly, shift, continue, break, trap, wait, umask, ulimit, hash, type, bind, 
-    builtin, command, dirs, popd, pushd, pwd, read, readarray, shopt, suspend, test, 
-    true, false, getopts, history, jobs, logout, mapfile, printf, xargs, awk, sed, 
-    find, sort, wc, tr, cut, paste, diff, patch, cmp, dd, df, du, mount, umount, tar, 
-    gzip, gunzip, zip, unzip, bzip2, bunzip2, ssh, scp, sftp, rsync, dig, host, 
-    traceroute, ifconfig, ip, iwconfig, route, arp, dhclient, ping6, traceroute6
-  },
-  keywordstyle=\color{bashkeyword}\bfseries,
-  ndkeywords={
-    -c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6, --help, -v, -a, -la, 
-    -lh, -rf, -eq, -ne, -lt, -gt, -le, -ge, -z, -n, -e, -f, -d, -s, -r, -w, -x, -h, 
-    -L, -b, -p, -t, -o, -O, --all, --almost-all, --author, --block-size, --color, 
-    --directory, --dereference, --human-readable, --inode, --numeric-uid-gid, 
-    --recursive, --reverse, --size, --sort, --time, --format, --exclude, --include
-  },
-  ndkeywordstyle=\color{cyan}\bfseries,
-  identifierstyle=\color{bashtext},
-  comment=[l]{\#},
-  commentstyle=\color{bashcomment}\ttfamily,
-  stringstyle=\color{bashstring}\ttfamily,
-  morestring=[b]',
-  morestring=[b]",
-  % Detección de prompts Linux que terminan en $
-  moredelim=[s][\color{bashprompt!75}\bfseries]{ccna@}{$},
-  moredelim=[s][\color{bashprompt!75}\bfseries]{root@}{$},
-  basicstyle=\color{bashtext}\ttfamily\footnotesize,
-}
-
+% Caja para comandos Cisco IOS
 \newtcolorbox{cisco-ios-box}{
-  colback=ciscoiosbg,
-  colframe=ciscoioscolor,
+  colback=ciscobg,
+  colframe=ciscoframe,
   arc=4pt,
   outer arc=4pt,
   left=12pt,
@@ -189,21 +213,64 @@
   fonttitle=\bfseries\color{white},
   title={\faNetworkWired\enspace Cisco IOS Terminal},
   coltitle=white,
-  colbacktitle=ciscoioscolor,
+  colbacktitle=ciscoframe,
   boxed title style={arc=3pt},
   breakable,
   listing only,
   listing options={
-    language=cisco-ios,
-    backgroundcolor=\color{ciscoiosbg},
+    language=,
+    basicstyle=\ttfamily\footnotesize\color{ciscotext},
+    backgroundcolor=\color{ciscobg},
+    frame=none,
     numbers=none,
-    frame=none
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=2,
+    aboveskip=0pt,
+    belowskip=0pt,
+    xleftmargin=0pt,
+    xrightmargin=0pt,
+    % Palabras clave principales
+    morekeywords={
+      enable, configure, terminal, interface, ip, router, switch, vlan, 
+      show, clear, debug, no, shutdown, exit, end, copy, reload, write,
+      access, trunk, switchport, mode, spanning-tree, portfast,
+      line, con, vty, login, password, secret, hostname, banner, motd,
+      running-config, startup-config, memory, flash, tftp,
+      port-security, maximum, violation, aging, sticky, mac-address,
+      count, dynamic, static, learned, secure, restrict, protect
+    },
+    keywordstyle=\bfseries\color{ciscoblue},
+    % Palabras clave secundarias
+    morekeywords={[2]
+      FastEthernet, GigabitEthernet, Serial, Loopback, VLAN,
+      route, protocol, range, default-gateway, version, brief, detail,
+      trunk, native, allowed, auto, full, half, dot1q, active, passive,
+      UP, DOWN, administratively, connected, static, dynamic
+    },
+    keywordstyle={[2]\bfseries\color{ciscopurple}},
+    % Strings
+    stringstyle=\color{ciscored},
+    morestring=[b]",
+    morestring=[b]',
+    % Comentarios
+    morecomment=[l]{!},
+    commentstyle=\color{ciscogreen}\itshape,
+    % Prompts
+    moredelim=[s][\bfseries\color{ciscoblue}]{Switch>}{},
+    moredelim=[s][\bfseries\color{ciscoblue}]{Switch\#}{},
+    moredelim=[s][\bfseries\color{ciscoblue}]{SW1>}{},
+    moredelim=[s][\bfseries\color{ciscoblue}]{SW1\#}{},
+    moredelim=[s][\bfseries\color{ciscoblue}]{Router>}{},
+    moredelim=[s][\bfseries\color{ciscoblue}]{Router\#}{}
   }
 }
 
+% Caja para comandos Linux/Bash
 \newtcolorbox{bash-box}{
-  colback=bashbg,
-  colframe=bashcolor,
+  colback=linuxbg,
+  colframe=linuxframe,
   arc=4pt,
   outer arc=4pt,
   left=12pt,
@@ -213,14 +280,55 @@
   fonttitle=\bfseries\color{white},
   title={\faTerminal\enspace Linux Terminal},
   coltitle=white,
-  colbacktitle=bashcolor,
+  colbacktitle=linuxframe,
   boxed title style={arc=3pt},
   breakable,
   listing only,
   listing options={
-    language=bash,
-    backgroundcolor=\color{bashbg},
+    language=,
+    basicstyle=\ttfamily\footnotesize\color{linuxwhite},
+    backgroundcolor=\color{linuxbg},
+    frame=none,
     numbers=none,
-    frame=none
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=2,
+    aboveskip=0pt,
+    belowskip=0pt,
+    xleftmargin=0pt,
+    xrightmargin=0pt,
+    % Comandos principales
+    morekeywords={
+      sudo, apt, update, install, which, ping, echo, cat, grep, head, tail,
+      chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top,
+      systemctl, service, iptables, tcpdump, nmap, curl, wget,
+      tshark, wireshark, macof, nc, if, then, else, fi, for, do, done,
+      while, until, case, function, export, source, exit, return
+    },
+    keywordstyle=\bfseries\color{linuxcyan},
+    % Opciones y flags
+    morekeywords={[2]
+      -c, -i, -f, -u, -l, -y, -p, -n, -r, -4, -6, -v, -a, -h,
+      --help, --version, -la, -lh, -rf, --color, --recursive
+    },
+    keywordstyle={[2]\bfseries\color{linuxyellow}},
+    % Strings
+    stringstyle=\color{linuxgreen},
+    morestring=[b]",
+    morestring=[b]',
+    % Comentarios
+    morecomment=[l]{\#},
+    commentstyle=\color{linuxgray}\itshape,
+    % Prompts
+    moredelim=[s][\bfseries\color{linuxgreen}]{ccna@}{$},
+    moredelim=[s][\bfseries\color{linuxgreen}]{root@}{$},
+    moredelim=[s][\bfseries\color{linuxgreen}]{user@}{$},
+    moredelim=[s][\bfseries\color{linuxgreen}]{ubuntu@}{$}
   }
+}
+
+\newcommand{\forceloadstyles}{%
+  \lstset{style=custom-cisco-style}%
+  \lstset{style=custom-bash-style}%
 }
