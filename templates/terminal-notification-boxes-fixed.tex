@@ -1,0 +1,260 @@
+% Configuración personalizada de cajas para documentos técnicos
+% Usando tcolorbox con iconos FontAwesome
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,listings,breakable}
+\usepackage{fontawesome5}
+\usepackage{fancyvrb}
+
+% Redefinir includegraphics para limitar el tamaño de las imágenes
+\usepackage{graphicx}
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \oldincludegraphics[width=\linewidth,#1]{#2}%
+}
+
+% Definir colores personalizados para notificaciones
+\definecolor{infocolor}{RGB}{58, 135, 173}
+\definecolor{warningcolor}{RGB}{245, 166, 35}
+\definecolor{errorcolor}{RGB}{208, 2, 27}
+\definecolor{successcolor}{RGB}{40, 167, 69}
+
+% Definir colores para terminales (más realistas)
+\definecolor{ciscoioscolor}{RGB}{0, 51, 102}        % Azul oscuro Cisco
+\definecolor{ciscoiosbg}{RGB}{240, 248, 255}       % Fondo azul muy claro
+\definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro base para Cisco
+\definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
+\definecolor{ciscocomment}{RGB}{0, 128, 0}         % Verde para comentarios Cisco
+
+\definecolor{bashcolor}{RGB}{45, 45, 45}           % Negro/gris oscuro para borde
+\definecolor{bashbg}{RGB}{48, 10, 36}              % Fondo morado/negro Linux
+\definecolor{bashtext}{RGB}{255, 255, 255}         % Texto blanco
+\definecolor{bashkeyword}{RGB}{97, 175, 239}       % Azul claro para keywords Bash
+\definecolor{bashstring}{RGB}{152, 195, 121}       % Verde para strings
+\definecolor{bashcomment}{RGB}{92, 99, 112}        % Gris para comentarios
+\definecolor{bashprompt}{RGB}{0, 255, 0}           % Verde clásico Linux para prompt
+
+% Caja de información
+\newtcolorbox{info-box}{
+  colback=infocolor!10,
+  colframe=infocolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{infocolor}{\Large\faInfoCircle}\enspace}
+}
+
+% Caja de advertencia
+\newtcolorbox{warning-box}{
+  colback=warningcolor!10,
+  colframe=warningcolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{warningcolor}{\Large\faExclamationTriangle}\enspace}
+}
+
+% Caja de error
+\newtcolorbox{error-box}{
+  colback=errorcolor!10,
+  colframe=errorcolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{errorcolor}{\Large\faTimes}\enspace}
+}
+
+% Caja de éxito
+\newtcolorbox{success-box}{
+  colback=successcolor!10,
+  colframe=successcolor,
+  arc=2pt,
+  outer arc=2pt,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  left=8pt,
+  right=8pt,
+  top=8pt,
+  bottom=8pt,
+  before upper={\parindent15pt\noindent\textcolor{successcolor}{\Large\faCheck}\enspace}
+}
+
+% Configuración de highlighting mejorado para código Cisco IOS
+\lstdefinelanguage{cisco-ios}{
+  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, exit, copy, running-config, startup-config, tftp, flash, reload, write, memory, erase},
+  keywordstyle=\color{ciscokeyword}\bfseries,
+  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, mac-address, route, protocol, port-security, range, default-gateway, dynamic, static, count, version, brief, detail, trunk, native, allowed},
+  ndkeywordstyle=\color{blue!70}\bfseries,
+  identifierstyle=\color{ciscotext},
+  comment=[l]{!},
+  commentstyle=\color{ciscocomment}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  basicstyle=\color{ciscotext}\ttfamily\footnotesize,
+}
+
+% Estilo mejorado para código bash/shell
+\lstdefinelanguage{bash}{
+  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top, htop, systemctl, service, iptables, tcpdump, nmap, curl, wget},
+  keywordstyle=\color{bashkeyword}\bfseries,
+  ndkeywords={-c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6, --help, -v, -a, -la, -lh, -rf},
+  ndkeywordstyle=\color{cyan}\bfseries,
+  identifierstyle=\color{bashtext},
+  comment=[l]{\#},
+  commentstyle=\color{bashcomment}\ttfamily,
+  stringstyle=\color{bashstring}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  % Detección de prompts Linux que terminan en $
+  moredelim=[s][\color{bashprompt!75}\bfseries]{ccna@}{$},
+  moredelim=[s][\color{bashprompt!75}\bfseries]{root@}{$},
+  basicstyle=\color{bashtext}\ttfamily\footnotesize,
+}
+
+% Definir opciones de listings mejoradas para preservar formato exacto
+\lstset{
+  keepspaces=true,
+  columns=flexible,
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false,
+  tabsize=4,
+  escapeinside={(*@}{@*)},
+  extendedchars=true,
+  upquote=true,
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+    {¿}{{?`}}1 {¡}{{!`}}1
+}
+
+% Terminal Cisco IOS - Usando listings con opciones mejoradas para preservar formato verbatim
+\newtcolorbox{cisco-ios-box}[1][]{
+  colback=ciscoiosbg,
+  colframe=ciscoioscolor,
+  arc=4pt,
+  outer arc=4pt,
+  left=12pt,
+  right=12pt,
+  top=12pt,
+  bottom=12pt,
+  fonttitle=\bfseries\color{white},
+  title={\faNetworkWired\enspace Cisco IOS Terminal},
+  coltitle=white,
+  colbacktitle=ciscoioscolor,
+  boxed title style={arc=3pt},
+  breakable,
+  verbatim,
+  listing options={
+    language=cisco-ios,
+    backgroundcolor=\color{ciscoiosbg},
+    numbers=none,
+    frame=none,
+    basicstyle=\color{ciscotext}\ttfamily\footnotesize,
+    breaklines=true,
+    breakatwhitespace=false,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    upquote=true,
+    columns=flexible,
+    keepspaces=true,
+    escapeinside={(*@}{@*)},
+    mathescape=false,
+    morekeywords={},
+  },
+  #1
+}
+
+% Terminal Bash/Linux - Usando listings con opciones mejoradas para preservar formato verbatim
+\newtcolorbox{bash-box}[1][]{
+  colback=bashbg,
+  colframe=bashcolor,
+  arc=4pt,
+  outer arc=4pt,
+  left=12pt,
+  right=12pt,
+  top=12pt,
+  bottom=12pt,
+  fonttitle=\bfseries\color{white},
+  title={\faTerminal\enspace Linux Terminal},
+  coltitle=white,
+  colbacktitle=bashcolor,
+  boxed title style={arc=3pt},
+  breakable,
+  verbatim,
+  listing options={
+    language=bash,
+    backgroundcolor=\color{bashbg},
+    numbers=none,
+    frame=none,
+    basicstyle=\color{bashtext}\ttfamily\footnotesize,
+    breaklines=true,
+    breakatwhitespace=false,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    upquote=true,
+    columns=flexible,
+    keepspaces=true,
+    escapeinside={(*@}{@*)},
+    mathescape=false,
+    morekeywords={},
+  },
+  #1
+}
+
+% Definiciones fancyvrb para usar como alternativa en caso necesario
+\DefineVerbatimEnvironment{CiscoIOS}{Verbatim}{
+  fontsize=\footnotesize,
+  formatcom=\color{ciscotext},
+  frame=single,
+  framerule=0.4mm,
+  rulecolor=\color{ciscoioscolor},
+  framesep=3mm,
+  label={\textcolor{white}{\faNetworkWired\enspace Cisco IOS Terminal}},
+  labelposition=topline,
+  samepage=false,
+  xleftmargin=5mm,
+  xrightmargin=5mm
+}
+
+\DefineVerbatimEnvironment{Bash}{Verbatim}{
+  fontsize=\footnotesize,
+  formatcom=\color{bashtext}\columncolor{bashbg},
+  frame=single,
+  framerule=0.4mm,
+  rulecolor=\color{bashcolor},
+  framesep=3mm,
+  label={\textcolor{white}{\faTerminal\enspace Linux Terminal}},
+  labelposition=topline,
+  samepage=false,
+  xleftmargin=5mm,
+  xrightmargin=5mm
+}
