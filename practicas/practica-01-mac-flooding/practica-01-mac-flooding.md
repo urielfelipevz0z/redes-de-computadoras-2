@@ -29,7 +29,7 @@ pandoc-latex-environment:
 
 # Resumen Ejecutivo
 
-Esta práctica documenta la implementación y análisis de un ataque de inundación MAC (MAC Flooding) sobre un switch Cisco 2960 en un entorno de laboratorio controlado. El objetivo es comprender las vulnerabilidades inherentes en las tablas CAM de los switches y demostrar cómo explotar estas vulnerabilidades para interceptar tráfico de red.
+Esta práctica documenta la implementación y análisis de un ataque de inundación MAC (MAC Flooding) sobre un switch Cisco 2960 en un entorno de laboratorio. El objetivo es comprender las vulnerabilidades inherentes en las tablas CAM de los switches y demostrar cómo explotar estas vulnerabilidades para interceptar tráfico de red.
 
 **Resultados:** Se logró saturar la tabla MAC del switch, forzando el comportamiento de hub y permitiendo la intercepción de comunicaciones entre dispositivos de la red.
 
@@ -74,22 +74,23 @@ Los switches de capa 2 mantienen una tabla de direcciones MAC (CAM table) que ma
 
 ::: cisco-ios
 Switch> enable
-Switch# hostname SW1
-SW1# enable secret cisco123
-!
-SW1# interface FastEthernet0/1
+Switch# configure terminal
+Switch(config)# hostname SW1
+SW1(config)# enable secret class
+
+SW1(config)# interface fastEthernet 0/1
 SW1(config-if)# description "PC A - 192.168.1.10"
-!
-SW1(config-if)# interface FastEthernet0/3
+
+SW1(config-if)# interface fastEthernet 0/3
 SW1(config-if)# description "PC B - 192.168.1.20"
-!
-SW1(config-if)# interface FastEthernet0/5
+
+SW1(config-if)# interface fastEthernet 0/5
 SW1(config-if)# description "PC C - 192.168.1.30 (Atacante)"
-!
-SW1(config-if)# interface range FastEthernet0/4-24
+
+SW1(config-if)# interface range fastEthernet 0/4-24
 SW1(config-if-range)# shutdown
-!
-SW1(config)# line con 0
+
+SW1(config-if-range)# line con 0
 SW1(config-line)# password cisco
 SW1(config-line)# login
 :::
@@ -97,7 +98,7 @@ SW1(config-line)# login
 ## Estado Inicial de la Tabla MAC
 
 ::: cisco-ios
-Switch# show mac address-table
+SW1# show mac address-table
           Mac Address Table
 -------------------------------------------
 Vlan    Mac Address       Type        Ports
@@ -123,7 +124,7 @@ ccna@pc-c:~$ which macof  # Verificar instalación
 Prueba de conectividad inicial entre PC A y PC B:
 
 ::: bash
-ccna@pc-a:\textasciitilde$ ping -c 4 192.168.1.20
+ccna@pc-a:~$ ping -c 4 192.168.1.20
 :::
 
 ::: info
@@ -145,11 +146,14 @@ ccna@pc-c:~$ sudo macof -i eno1 -s random -d random
 Durante el ataque:
 
 ::: cisco-ios
-Switch# show mac address-table count
-Dynamic Address Count:               7992
-Static  Address Count:               0
-Total Mac Addresses In Use:          7992
-Total Mac Addresses Space Available:    48
+SW1# show mac address-table count
+Mac Entries for Vlan 1:
+----------------------------
+Dynamic Address Count  : 7992
+Static  Address Count  : 0
+Total Mac Addresses    : 7992
+
+Total Mac Address Space Available:    48
 :::
 
 ![Estado de la tabla MAC durante la saturación](images/ios-mac-table-flooded-01.png)
@@ -274,7 +278,7 @@ La detección temprana requiere monitoreo automatizado de:
 Implementar port security básico:
 
 ::: cisco-ios
-Switch(config)# interface range FastEthernet0/1-24
+Switch(config)# interface range fastEthernet0/1-24
 Switch(config-if)# switchport port-security
 Switch(config-if)# switchport port-security maximum 2
 Switch(config-if)# switchport port-security violation restrict
