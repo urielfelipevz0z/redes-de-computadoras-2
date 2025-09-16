@@ -216,13 +216,15 @@ ccna@pc-a:~$ echo "Mensaje secreto" | nc -u 192.168.1.20 1234
 
 **Comandos utilizados:**
 
-::: bash
 # PC A - Generación de tráfico
+
+::: bash
 ccna@pc-a:~$ ping -c 20 -i 0.5 192.168.1.20
 :::
 
-::: bash
 # PC C - Captura simultánea
+
+::: bash
 ccna@pc-c:~$ tshark -i eno1 -f "icmp" -c 20
 :::
 

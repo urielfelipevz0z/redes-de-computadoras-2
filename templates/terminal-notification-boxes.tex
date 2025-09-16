@@ -24,6 +24,7 @@
 \definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro base para Cisco
 \definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
 \definecolor{ciscocomment}{RGB}{0, 128, 0}         % Verde para comentarios Cisco
+\definecolor{ciscovariable}{RGB}{128, 0, 128}      % Púrpura para variables en Cisco
 
 \definecolor{bashcolor}{RGB}{45, 45, 45}           % Negro/gris oscuro para borde
 \definecolor{bashbg}{RGB}{48, 10, 36}              % Fondo morado/negro Linux
@@ -32,6 +33,7 @@
 \definecolor{bashstring}{RGB}{152, 195, 121}       % Verde para strings
 \definecolor{bashcomment}{RGB}{92, 99, 112}        % Gris para comentarios
 \definecolor{bashprompt}{RGB}{0, 255, 0}           % Verde clásico Linux para prompt
+\definecolor{bashvariable}{RGB}{255, 184, 108}     % Naranja para variables en Bash
 
 % Caja de información
 \newtcolorbox{info-box}{
@@ -103,9 +105,32 @@
 
 % Configuración de highlighting mejorado para código Cisco IOS
 \lstdefinelanguage{cisco-ios}{
-  keywords={interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, exit, copy, running-config, startup-config, tftp, flash, reload, write, memory, erase},
+  keywords={
+    interface, ip, router, switch, vlan, access, trunk, enable, configure, terminal, 
+    show, clear, debug, no, shutdown, description, switchport, mode, spanning-tree, 
+    portfast, line, con, vty, login, password, secret, hostname, banner, motd, end, 
+    exit, copy, running-config, startup-config, tftp, flash, reload, write, memory, 
+    erase, duplex, speed, encapsulation, dot1q, route, permit, deny, access-list,
+    network, mask, area, neighbor, remote-as, redistribute, default-information,
+    passive-interface, clock, rate, bandwidth, delay, eigrp, ospf, rip, bgp,
+    address, dhcp, pool, domain-name, domain, default-router, lease, logging,
+    service, ntp, server, source, aaa, authentication, authorization, accounting,
+    username, group, privilege, exec, transport, input, output, vrf, nat, inside,
+    outside, overload, list, snmp-server, community, location, contact, trap,
+    version, access-group, class-map, policy-map, match, set, service-policy
+  },
   keywordstyle=\color{ciscokeyword}\bfseries,
-  ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, mac-address, route, protocol, port-security, range, default-gateway, dynamic, static, count, version, brief, detail, trunk, native, allowed},
+  ndkeywords={
+    FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, mac-address, route, 
+    protocol, port-security, range, default-gateway, dynamic, static, count, version, 
+    brief, detail, trunk, native, allowed, auto, full, half, dot1q, isl, active, 
+    passive, ethernet, atm, frame-relay, point-to-point, multipoint, broadcast, 
+    non-broadcast, ppp, hdlc, ietf, cisco, interval, connected, summary, rip, ospf, 
+    eigrp, bgp, area, as-number, network-type, cost, priority, hello, dead, stub, 
+    totally, nssa, lsa, lsdb, hello-interval, router-id, auto-cost, reference-bandwidth,
+    authentication, message-digest, key, md5, text, process-id, standard, extended,
+    named, time-range, established, log, reflect, user, local, radius, tacacs, enable
+  },
   ndkeywordstyle=\color{blue!70}\bfseries,
   identifierstyle=\color{ciscotext},
   comment=[l]{!},
@@ -118,9 +143,27 @@
 
 % Estilo mejorado para código bash/shell
 \lstdefinelanguage{bash}{
-  keywords={sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof, grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top, htop, systemctl, service, iptables, tcpdump, nmap, curl, wget},
+  keywords={
+    sudo, apt, update, install, which, dpkg, ping, echo, nc, tshark, wireshark, macof,
+    grep, cat, head, tail, chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, 
+    top, htop, systemctl, service, iptables, tcpdump, nmap, curl, wget, if, then, else, 
+    fi, for, do, done, while, until, case, esac, function, in, select, time, exit, 
+    return, export, alias, unalias, source, let, eval, exec, set, unset, declare, local,
+    readonly, shift, continue, break, trap, wait, umask, ulimit, hash, type, bind, 
+    builtin, command, dirs, popd, pushd, pwd, read, readarray, shopt, suspend, test, 
+    true, false, getopts, history, jobs, logout, mapfile, printf, xargs, awk, sed, 
+    find, sort, wc, tr, cut, paste, diff, patch, cmp, dd, df, du, mount, umount, tar, 
+    gzip, gunzip, zip, unzip, bzip2, bunzip2, ssh, scp, sftp, rsync, dig, host, 
+    traceroute, ifconfig, ip, iwconfig, route, arp, dhclient, ping6, traceroute6
+  },
   keywordstyle=\color{bashkeyword}\bfseries,
-  ndkeywords={-c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6, --help, -v, -a, -la, -lh, -rf},
+  ndkeywords={
+    -c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6, --help, -v, -a, -la, 
+    -lh, -rf, -eq, -ne, -lt, -gt, -le, -ge, -z, -n, -e, -f, -d, -s, -r, -w, -x, -h, 
+    -L, -b, -p, -t, -o, -O, --all, --almost-all, --author, --block-size, --color, 
+    --directory, --dereference, --human-readable, --inode, --numeric-uid-gid, 
+    --recursive, --reverse, --size, --sort, --time, --format, --exclude, --include
+  },
   ndkeywordstyle=\color{cyan}\bfseries,
   identifierstyle=\color{bashtext},
   comment=[l]{\#},
