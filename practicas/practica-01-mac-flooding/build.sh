@@ -51,7 +51,7 @@ pandoc "$INPUT_FILE" \
     --metadata page-background="$BACKGROUND_PAGE" \
     --metadata table-use-row-colors=true \
     --metadata tables=true \
-    --include-in-header=../../templates/custom-boxes.tex \
+    --include-in-header=../../templates/terminal-notification-boxes.tex \
     --filter /home/beladen/Redes-de-Computadoras-2/venv/bin/pandoc-latex-environment \
     --output "$OUTPUT_FILE"
 
