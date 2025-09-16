@@ -30,7 +30,7 @@ fi
 # Generar PDF con pandoc + Eisvogel
 # Toda la configuración está en el YAML front matter del markdown
 pandoc "$INPUT_FILE" \
-    --from markdown \
+    --from markdown+hard_line_breaks \
     --to pdf \
     --template="$EISVOGEL_TEMPLATE" \
     --pdf-engine=xelatex \
@@ -51,6 +51,8 @@ pandoc "$INPUT_FILE" \
     --metadata page-background="$BACKGROUND_PAGE" \
     --metadata table-use-row-colors=true \
     --metadata tables=true \
+    --highlight-style=tango \
+    --preserve-tabs \
     --include-in-header=../../templates/terminal-notification-boxes.tex \
     --filter /home/beladen/Redes-de-Computadoras-2/venv/bin/pandoc-latex-environment \
     --output "$OUTPUT_FILE"

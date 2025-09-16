@@ -134,8 +134,7 @@
   basicstyle=\color{bashtext}\ttfamily\footnotesize,
 }
 
-% Terminal Cisco IOS - Con preservación de saltos de línea usando tcblisting
-\newtcblisting{cisco-ios-box}{
+\newtcolorbox{cisco-ios-box}{
   colback=ciscoiosbg,
   colframe=ciscoioscolor,
   arc=4pt,
@@ -155,12 +154,11 @@
     language=cisco-ios,
     backgroundcolor=\color{ciscoiosbg},
     numbers=none,
-    frame=none,
-  },
+    frame=none
+  }
 }
 
-% Terminal Bash/Linux - Con preservación de saltos de línea usando tcblisting
-\newtcblisting{bash-box}{
+\newtcolorbox{bash-box}{
   colback=bashbg,
   colframe=bashcolor,
   arc=4pt,
@@ -178,8 +176,8 @@
   listing only,
   listing options={
     language=bash,
-    numbers=none,
-    frame=none,
     backgroundcolor=\color{bashbg},
-  },
+    numbers=none,
+    frame=none
+  }
 }
