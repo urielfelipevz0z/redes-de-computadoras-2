@@ -73,25 +73,25 @@ Los switches de capa 2 mantienen una tabla de direcciones MAC (CAM table) que ma
 ## Configuración Base del Switch
 
 ::: cisco-ios
-(*@\textcolor{ciscoprompt}{\bfseries Switch>}@*) enable
-(*@\textcolor{ciscoprompt}{\bfseries Switch\#}@*) hostname SW1
-(*@\textcolor{ciscoprompt}{\bfseries SW1\#}@*) enable secret cisco123
+Switch> enable
+Switch# hostname SW1
+SW1# enable secret cisco123
 !
-(*@\textcolor{ciscoprompt}{\bfseries SW1\#}@*) interface FastEthernet0/1
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if)\#}@*) description "PC A - 192.168.1.10"
+SW1# interface FastEthernet0/1
+SW1(config-if)# description "PC A - 192.168.1.10"
 !
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if)\#}@*) interface FastEthernet0/3
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if)\#}@*) description "PC B - 192.168.1.20"
+SW1(config-if)# interface FastEthernet0/3
+SW1(config-if)# description "PC B - 192.168.1.20"
 !
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if)\#}@*) interface FastEthernet0/5
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if)\#}@*) description "PC C - 192.168.1.30 (Atacante)"
+SW1(config-if)# interface FastEthernet0/5
+SW1(config-if)# description "PC C - 192.168.1.30 (Atacante)"
 !
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if)\#}@*) interface range FastEthernet0/4-24
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-if-range)\#}@*) shutdown
+SW1(config-if)# interface range FastEthernet0/4-24
+SW1(config-if-range)# shutdown
 !
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config)\#}@*) line con 0
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-line)\#}@*) password cisco
-(*@\textcolor{ciscoprompt}{\bfseries SW1(config-line)\#}@*) login
+SW1(config)# line con 0
+SW1(config-line)# password cisco
+SW1(config-line)# login
 :::
 
 ## Estado Inicial de la Tabla MAC
@@ -105,7 +105,6 @@ Vlan    Mac Address       Type        Ports
    1    7456.3cb7.4d13    DYNAMIC     Fa0/1
    1    7456.3cb7.4d63    DYNAMIC     Fa0/2
    1    7456.3cb7.0f23    DYNAMIC     Fa0/3
-Total Mac Addresses for this criterion: 3
 :::
 
 # Desarrollo Detallado
@@ -115,8 +114,8 @@ Total Mac Addresses for this criterion: 3
 En PC C (atacante):
 
 ::: bash
-(*@\textcolor{bashprompt}{\bfseries ccna@pc-c:\textasciitilde\$}@*) sudo apt update && sudo apt install dsniff -y
-(*@\textcolor{bashprompt}{\bfseries ccna@pc-c:\textasciitilde\$}@*) which macof  # Verificar instalación
+ccna@pc-c:~$ sudo apt update && sudo apt install dsniff -y
+ccna@pc-c:~$ which macof  # Verificar instalación
 :::
 
 ## Comportamiento Normal del Switch
@@ -124,7 +123,7 @@ En PC C (atacante):
 Prueba de conectividad inicial entre PC A y PC B:
 
 ::: bash
-(*@\textcolor{bashprompt}{\bfseries ccna@pc-a:\textasciitilde\$}@*) ping -c 4 192.168.1.20
+ccna@pc-a:\textasciitilde$ ping -c 4 192.168.1.20
 :::
 
 ::: info
@@ -136,7 +135,7 @@ Prueba de conectividad inicial entre PC A y PC B:
 En PC C, ejecutar el ataque:
 
 ::: bash
-(*@\textcolor{bashprompt}{\bfseries ccna@pc-c:\textasciitilde\$}@*) sudo macof -i eno1 -s random -d random
+ccna@pc-c:~$ sudo macof -i eno1 -s random -d random
 :::
 
 ![Ejecución del comando macof en terminal](images/terminal-icmp-flooding-01.png)
@@ -216,7 +215,9 @@ ccna@pc-a:~$ echo "Mensaje secreto" | nc -u 192.168.1.20 1234
 ::: bash
 # PC A - Generación de tráfico
 ccna@pc-a:~$ ping -c 20 -i 0.5 192.168.1.20
+:::
 
+::: bash
 # PC C - Captura simultánea
 ccna@pc-c:~$ tshark -i eno1 -f "icmp" -c 20
 :::
@@ -249,10 +250,10 @@ Al detener macof, el switch recupera automáticamente su comportamiento normal:
 ### Comandos Cisco IOS Críticos
 
 ::: cisco-ios
-Switch\# show mac address-table
-Switch\# show mac address-table count
-Switch\# clear mac address-table dynamic
-Switch\# show interfaces status
+Switch# show mac address-table
+Switch# show mac address-table count
+Switch# clear mac address-table dynamic
+Switch# show interfaces status
 :::
 
 ## Lecciones Aprendidas
@@ -273,33 +274,29 @@ La detección temprana requiere monitoreo automatizado de:
 Implementar port security básico:
 
 ::: cisco-ios
-interface range FastEthernet0/1-24
- switchport port-security
- switchport port-security maximum 2
- switchport port-security violation restrict
+Switch(config)# interface range FastEthernet0/1-24
+Switch(config-if)# switchport port-security
+Switch(config-if)# switchport port-security maximum 2
+Switch(config-if)# switchport port-security violation restrict
 :::
-
-# Exploración de Aplicaciones y Sugerencias
-
-## Extensiones Prácticas Recomendadas
 
 ### 1. Implementación de Port Security Avanzado
 Configurar diferentes niveles de port security para evaluar su efectividad:
 
 ::: cisco-ios
-(*@\ccomment{! Configuración restrictiva}@*)
-Switch(config)\# interface FastEthernet0/1
-Switch(config-if)\# switchport port-security
-Switch(config-if)\# switchport port-security maximum 1
-Switch(config-if)\# switchport port-security violation shutdown
-Switch(config-if)\# switchport port-security mac-address sticky
+! Configuración restrictiva
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# switchport port-security
+Switch(config-if)# switchport port-security maximum 1
+Switch(config-if)# switchport port-security violation shutdown
+Switch(config-if)# switchport port-security mac-address sticky
 
-(*@\ccomment{! Configuración con logging}@*)
-Switch(config-if)\# interface FastEthernet0/2
-Switch(config-if)\# switchport port-security
-Switch(config-if)\# switchport port-security maximum 2
-Switch(config-if)\# switchport port-security violation restrict
-Switch(config-if)\# switchport port-security aging time 10
+! Configuración con logging
+Switch(config-if)# interface FastEthernet0/2
+Switch(config-if)# switchport port-security
+Switch(config-if)# switchport port-security maximum 2
+Switch(config-if)# switchport port-security violation restrict
+Switch(config-if)# switchport port-security aging time 10
 :::
 
 **Investigación sugerida:** Evaluar el impacto en rendimiento y usabilidad de cada modo de violación.
