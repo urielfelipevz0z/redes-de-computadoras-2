@@ -104,8 +104,8 @@ SW1# show mac address-table
 Vlan    Mac Address       Type        Ports
 ----    -----------       --------    -----
    1    7456.3cb7.4d13    DYNAMIC     Fa0/1
-   1    7456.3cb7.4d63    DYNAMIC     Fa0/2
-   1    7456.3cb7.0f23    DYNAMIC     Fa0/3
+   1    7456.3cb7.4d63    DYNAMIC     Fa0/3
+   1    7456.3cb7.0f23    DYNAMIC     Fa0/5
 :::
 
 # Desarrollo Detallado
