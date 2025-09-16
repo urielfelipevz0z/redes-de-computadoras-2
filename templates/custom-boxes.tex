@@ -24,15 +24,15 @@
 \definecolor{ciscotext}{RGB}{0, 0, 0}              % Texto negro base para Cisco
 \definecolor{ciscokeyword}{RGB}{0, 0, 255}         % Azul para keywords Cisco
 \definecolor{ciscocomment}{RGB}{0, 128, 0}         % Verde para comentarios Cisco
+\definecolor{ciscoprompt}{RGB}{0, 51, 102}         % Azul Cisco para prompt
 
 \definecolor{bashcolor}{RGB}{45, 45, 45}           % Negro/gris oscuro para borde
 \definecolor{bashbg}{RGB}{48, 10, 36}              % Fondo morado/negro Linux
 \definecolor{bashtext}{RGB}{255, 255, 255}         % Texto blanco
-
 \definecolor{bashkeyword}{RGB}{97, 175, 239}       % Azul claro para keywords Bash
 \definecolor{bashstring}{RGB}{152, 195, 121}       % Verde para strings
 \definecolor{bashcomment}{RGB}{92, 99, 112}        % Gris para comentarios
-\definecolor{bashprompt}{RGB}{224, 108, 117}       % Rojo claro para prompt
+\definecolor{bashprompt}{RGB}{0, 255, 0}           % Verde clásico Linux para prompt
 
 % Caja de información
 \newtcolorbox{info-box}{
@@ -40,7 +40,7 @@
   colframe=infocolor,
   arc=2pt,
   outer arc=2pt,
-  leftrule=4pt,q
+  leftrule=4pt,
   rightrule=0pt,
   toprule=0pt,
   bottomrule=0pt,
@@ -109,17 +109,22 @@
   ndkeywords={FastEthernet, GigabitEthernet, Serial, Loopback, VLAN, address, route, protocol, security, range, default-gateway, dynamic, static, count, version, brief, detail, trunk, native, allowed},
   ndkeywordstyle=\color{blue!70}\bfseries,
   identifierstyle=\color{ciscotext},
-  sensitive=false,
   comment=[l]{\#},
   comment=[l]{!},
   commentstyle=\color{ciscocomment}\ttfamily,
   stringstyle=\color{red}\ttfamily,
   morestring=[b]',
   morestring=[b]",
+  % Detección de prompts Cisco
+  moredelim=[s][\color{ciscoprompt}\bfseries]{Switch>}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{Switch\#}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{SW1>}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{SW1\#}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{SW1(config)\#}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{SW1(config-if)\#}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{SW1(config-if-range)\#}{\ },
+  moredelim=[s][\color{ciscoprompt}\bfseries]{SW1(config-line)\#}{\ },
   basicstyle=\color{ciscotext}\ttfamily\footnotesize,
-  breaklines=true,
-  breakatwhitespace=true,
-  columns=flexible
 }
 
 % Estilo mejorado para código bash/shell
@@ -129,20 +134,20 @@
   ndkeywords={-c, -i, -f, -u, -l, -y, --version, -lu, -p, -n, -r, -4, -6, --help, -v, -a, -la, -lh, -rf},
   ndkeywordstyle=\color{cyan}\bfseries,
   identifierstyle=\color{bashtext},
-  sensitive=true,
   comment=[l]{\#},
   commentstyle=\color{bashcomment}\ttfamily,
   stringstyle=\color{bashstring}\ttfamily,
   morestring=[b]',
   morestring=[b]",
+  % Detección de prompts Linux que terminan en $
+  moredelim=[s][\color{bashprompt}\bfseries]{ccna@}{$},
+  moredelim=[s][\color{bashprompt}\bfseries]{root@}{$},
+  moredelim=[s][\color{bashprompt}\bfseries]{user@}{$},
   basicstyle=\color{bashtext}\ttfamily\footnotesize,
-  breaklines=true,
-  breakatwhitespace=true,
-  columns=flexible
 }
 
-% Terminal Cisco IOS - Estilo realista con prompt
-\newtcolorbox{cisco-ios-box}{
+% Terminal Cisco IOS - Con preservación de saltos de línea usando tcblisting
+\newtcblisting{cisco-ios-box}{
   enhanced,
   colback=ciscoiosbg,
   colframe=ciscoioscolor,
@@ -156,34 +161,28 @@
   title={\faNetworkWired\enspace Cisco IOS Terminal},
   coltitle=white,
   colbacktitle=ciscoioscolor,
-  attach boxed title to top left={yshift=-3mm,xshift=6mm},
   boxed title style={arc=3pt},
   breakable,
-  pad at break*=2mm,
   listing only,
   listing options={
     language=cisco-ios,
-    basicstyle=\color{ciscotext}\ttfamily\footnotesize,
-    backgroundcolor=\color{ciscoiosbg},
-    numbers=none,
-    showstringspaces=false,
+    basicstyle=\ttfamily\footnotesize\color{ciscotext},
     breaklines=true,
-    breakatwhitespace=true,
-    breakindent=1em,
-    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-    tabsize=4,
+    columns=fullflexible,
+    keepspaces=true,
+    numbers=none,
     frame=none,
-    xleftmargin=0pt,
-    xrightmargin=0pt,
-    aboveskip=0pt,
-    belowskip=0pt,
-    columns=flexible,
-    keepspaces=true
-  }
+    backgroundcolor=\color{ciscoiosbg},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    escapeinside={(*@}{@*)},
+  },
 }
 
-% Terminal Bash/Linux - Estilo realista con prompt ccna@
-\newtcolorbox{bash-box}{
+% Terminal Bash/Linux - Con preservación de saltos de línea usando tcblisting
+\newtcblisting{bash-box}{
   enhanced,
   colback=bashbg,
   colframe=bashcolor,
@@ -195,32 +194,26 @@
   bottom=12pt,
   fonttitle=\bfseries\color{white},
   title={\faTerminal\enspace Linux Terminal},
-  coltitle=green,
+  coltitle=white,
   colbacktitle=bashcolor,
-  attach boxed title to top left={yshift=-3mm,xshift=6mm},
   boxed title style={arc=3pt},
   breakable,
-  pad at break*=2mm,
   listing only,
   listing options={
     language=bash,
-    basicstyle=\color{bashtext}\ttfamily\footnotesize,
-    backgroundcolor=\color{bashbg},
-    numbers=none,
-    showstringspaces=false,
+    basicstyle=\ttfamily\footnotesize\color{bashtext},
     breaklines=true,
-    breakatwhitespace=true,
-    breakindent=1em,
-    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-    tabsize=4,
+    columns=fullflexible,
+    keepspaces=true,
+    numbers=none,
     frame=none,
-    xleftmargin=0pt,
-    xrightmargin=0pt,
-    aboveskip=0pt,
-    belowskip=0pt,
-    columns=flexible,
-    keepspaces=true
-  }
+    backgroundcolor=\color{bashbg},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    escapeinside={(*@}{@*)},
+  },
 }
 
 % Configuración global optimizada de listings
@@ -231,34 +224,20 @@
   numberstyle=\tiny\color{gray},
   stepnumber=1,
   numbersep=8pt,
-  showstringspaces=false,
-  breaklines=true,
-  breakatwhitespace=true,
   breakindent=1.5em,
   postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-  tabsize=4,
-  captionpos=b,
-  xleftmargin=0em,
-  xrightmargin=0em,
-  frame=none,
-  aboveskip=5pt,
-  belowskip=5pt,
-  columns=flexible,
-  keepspaces=true
+  tabsize=4
 }
 
-% Macros para facilitar el uso de terminales con prompts personalizados
+% Comandos simples para colorear elementos específicos
+\newcommand{\cprompt}[1]{\textcolor{ciscoprompt}{\bfseries#1}}
+\newcommand{\ccmd}[1]{\textcolor{ciscokeyword}{\bfseries#1}}
+\newcommand{\ccomment}[1]{\textcolor{ciscocomment}{#1}}
 
-% Macro para comandos Cisco con prompt personalizado
-\newcommand{\ciscoprompt}[1]{{\color{ciscokeyword}\bfseries#1}}
-\newcommand{\ciscousermode}[1]{\ciscoprompt{#1>}}
-\newcommand{\ciscoprivmode}[1]{\ciscoprompt{#1\#}}
-\newcommand{\ciscoconfmode}[1]{\ciscoprompt{#1(config)\#}}
-\newcommand{\ciscointfmode}[2]{\ciscoprompt{#1(config-if)\#}}
-
-% Macro para comandos Linux con prompt ccna@
-\newcommand{\bashprompt}[1]{{\color{bashprompt}\bfseries ccna@#1:\$}}
-\newcommand{\rootprompt}[1]{{\color{red}\bfseries root@#1:\#}}
+\newcommand{\bprompt}[1]{\textcolor{bashprompt}{\bfseries#1}}
+\newcommand{\bcmd}[1]{\textcolor{bashkeyword}{\bfseries#1}}
+\newcommand{\bstring}[1]{\textcolor{bashstring}{#1}}
+\newcommand{\bcomment}[1]{\textcolor{bashcomment}{#1}}
 
 % Ambientes simplificados para uso directo en markdown
 \newenvironment{ciscoios}{\begin{cisco-ios-box}}{\end{cisco-ios-box}}
