@@ -116,7 +116,12 @@ En PC C (atacante):
 
 ::: bash
 ccna@pc-c:~$ sudo apt update && sudo apt install dsniff -y
-ccna@pc-c:~$ which macof  # Verificar instalación
+:::
+
+# Verificar instalación
+
+::: bash
+ccna@pc-c:~$ which macof
 :::
 
 ## Comportamiento Normal del Switch
@@ -350,7 +355,7 @@ Crear scripts que monitoreen en tiempo real la tabla MAC y generen alertas.
 ---
 
 **Documento:** Práctica 01 - MAC Flooding Attack    
-**Fecha:** Septiembre 12, 2025  
+**Fecha:** Septiembre 06, 2025  
 **Autores:** Uriel Felipe Vázquez Orozco, Euler Molina Martínez  
 **Materia:** Redes de Computadoras 2  
 **Profesor:** M.C. Manuel Eduardo Sánchez Solchaga
