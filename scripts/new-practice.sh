@@ -96,34 +96,29 @@ fi
 # Generar PDF con pandoc + Eisvogel
 # Toda la configuración está en el YAML front matter del markdown
 pandoc "$INPUT_FILE" \
-    --from markdown \
+    --from markdown+hard_line_breaks \
     --to pdf \
     --template="$EISVOGEL_TEMPLATE" \
-    --listings \
     --pdf-engine=xelatex \
     --metadata lang=es \
     --metadata papersize=letter \
-    --metadata documentclass=scrartcl \
-    --metadata classoption="oneside,open=any" \
     --metadata geometry="top=2cm, bottom=2.5cm, left=2cm, right=2cm" \
     --metadata fontsize=11pt \
-    --metadata linestretch=1.2 \
     --metadata colorlinks=true \
     --metadata linkcolor=NavyBlue \
     --metadata urlcolor=NavyBlue \
     --metadata citecolor=NavyBlue \
     --metadata titlepage=true \
-    --metadata titlepage-color="D8D8D8" \
     --metadata titlepage-text-color="$TITLE_COLOR" \
     --metadata titlepage-rule-color="$RULE_COLOR" \
-    --metadata titlepage-rule-height=0 \
     --metadata titlepage-background="$BACKGROUND_TITLE" \
     --metadata titlepage-logo="$LOGO" \
     --metadata logo-width="70mm" \
     --metadata page-background="$BACKGROUND_PAGE" \
     --metadata table-use-row-colors=true \
     --metadata tables=true \
-    --metadata listings-no-page-break=true \
+    --highlight-style=tango \
+    --preserve-tabs \
     --include-in-header=../../templates/terminal-notification-boxes.tex \
     --filter "$(pwd)/../../venv/bin/pandoc-latex-environment" \
     --output "$OUTPUT_FILE"
