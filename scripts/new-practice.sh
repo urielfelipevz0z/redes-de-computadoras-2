@@ -125,7 +125,7 @@ pandoc "$INPUT_FILE" \
     --metadata tables=true \
     --metadata listings-no-page-break=true \
     --include-in-header=../../templates/terminal-notification-boxes.tex \
-    --filter /home/beladen/Redes-de-Computadoras-2/venv/bin/pandoc-latex-environment \
+    --filter "$(pwd)/../../venv/bin/pandoc-latex-environment" \
     --output "$OUTPUT_FILE"
 
 if [ $? -eq 0 ]; then
