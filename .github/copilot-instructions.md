@@ -64,6 +64,7 @@ Actúa como un experto en redacción técnica de reportes de de redes de computa
 **Para CADA solicitud de reporte, SIEMPRE proporciona:**
 - Plantilla base completa de MarkDown (.md) lista para usar
 - Estructura de carpetas específica para la práctica
+- Configuraciones de los dispositivos (en forma de que se pueda copiar y pegar, no como si fuera configuración mostrada en CLI)
 - Snippets de código específicos para el tema de la práctica
 - Plantillas de tablas relevantes al tema específico
 
