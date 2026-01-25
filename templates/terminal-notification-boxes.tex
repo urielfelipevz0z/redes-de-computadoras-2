@@ -24,15 +24,18 @@
 \definecolor{ciscopurple}{RGB}{128, 0, 128}
 \definecolor{ciscored}{RGB}{220, 20, 60}
 
-% Colores para terminal Linux/Bash (tema oscuro)
-\definecolor{linuxframe}{RGB}{60, 60, 60}
-\definecolor{linuxbg}{RGB}{40, 40, 40}
+% Colores para terminal Linux/Bash (tema Ubuntu/Gnome Terminal clásico)
+\definecolor{linuxframe}{RGB}{48, 10, 36}
+\definecolor{linuxbg}{RGB}{48, 10, 36}
 \definecolor{linuxwhite}{RGB}{255, 255, 255}
-\definecolor{linuxcyan}{RGB}{0, 255, 255}
-\definecolor{linuxgreen}{RGB}{0, 255, 0}
-\definecolor{linuxyellow}{RGB}{255, 255, 0}
-\definecolor{linuxblue}{RGB}{100, 149, 237}
-\definecolor{linuxgray}{RGB}{169, 169, 169}
+\definecolor{linuxcyan}{RGB}{6, 152, 154}
+\definecolor{linuxgreen}{RGB}{78, 154, 6}
+\definecolor{linuxyellow}{RGB}{196, 160, 0}
+\definecolor{linuxblue}{RGB}{52, 101, 164}
+\definecolor{linuxgray}{RGB}{211, 215, 207}
+\definecolor{linuxpromptgreen}{RGB}{138, 226, 52}
+\definecolor{linuxpromptblue}{RGB}{114, 159, 207}
+\definecolor{linuxtitlebar}{RGB}{87, 64, 80}
 
 \lstdefinestyle{custom-cisco-style}{
   language=,
@@ -119,17 +122,18 @@
   },
   keywordstyle=[2]\bfseries\color{linuxyellow},
   % Strings
-  stringstyle=\color{linuxgreen},
+  stringstyle=\color{linuxpromptgreen},
   morestring=[b]",
   morestring=[b]',
-  % Comentarios
-  morecomment=[l]{\#},
+  % Comentarios - usar ## para comentarios de script
+  morecomment=[l]{\#\#},
   commentstyle=\color{linuxgray}\itshape,
-  % Prompts de usuario
-  moredelim=[s][\bfseries\color{linuxgreen}]{ccna@}{$},
-  moredelim=[s][\bfseries\color{linuxgreen}]{root@}{$},
-  moredelim=[s][\bfseries\color{linuxgreen}]{user@}{$},
-  moredelim=[s][\bfseries\color{linuxgreen}]{ubuntu@}{$}
+  % Prompts de usuario con colores de terminal real
+  moredelim=[s][\bfseries\color{linuxpromptgreen}]{ccna@}{:},
+  moredelim=[s][\bfseries\color{linuxpromptblue}]{:~}{$},
+  moredelim=[s][\bfseries\color{linuxpromptgreen}]{root@}{:},
+  moredelim=[s][\bfseries\color{linuxpromptgreen}]{user@}{:},
+  moredelim=[s][\bfseries\color{linuxpromptgreen}]{ubuntu@}{:}
 }
 
 % Caja de información
@@ -268,67 +272,90 @@
 }
 
 % Caja para comandos Linux/Bash
+% Definir estilo de listings para bash separadamente
+\lstdefinestyle{linuxterminal}{
+  language=,
+  basicstyle=\ttfamily\footnotesize\color{linuxwhite},
+  backgroundcolor=\color{linuxbg},
+  frame=none,
+  numbers=none,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2,
+  aboveskip=0pt,
+  belowskip=0pt,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+  % Comandos principales
+  morekeywords={
+    sudo, apt, update, install, which, ping, echo, cat, grep, head, tail,
+    chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top,
+    systemctl, service, iptables, tcpdump, nmap, curl, wget,
+    tshark, wireshark, macof, nc, if, then, else, fi, for, do, done,
+    while, until, case, function, export, source, exit, return
+  },
+  keywordstyle=\bfseries\color{linuxcyan},
+  % Opciones y flags
+  morekeywords=[2]{
+    -c, -i, -f, -u, -l, -y, -p, -n, -r, -4, -6, -v, -a, -h,
+    --help, --version, -la, -lh, -rf, --color, --recursive
+  },
+  keywordstyle=[2]\bfseries\color{linuxyellow},
+  % Strings
+  stringstyle=\color{linuxpromptgreen},
+  morestring=[b]",
+  morestring=[b]',
+  % Comentarios - usar ## para comentarios explícitos en scripts
+  morecomment=[l]{\#\#},
+  commentstyle=\color{linuxgray}\itshape,
+  % Delimitadores para prompts de usuario
+  moredelim=[is][\bfseries\color{linuxpromptgreen}]{[PROMPT]}{[/PROMPT]},
+  moredelim=[is][\color{linuxpromptblue}]{[PATH]}{[/PATH]}
+}
+
 \newtcolorbox{bash-box}{
+  enhanced,
   colback=linuxbg,
-  colframe=linuxframe,
-  arc=4pt,
-  outer arc=4pt,
-  left=12pt,
-  right=12pt,
-  top=12pt,
-  bottom=12pt,
-  fonttitle=\bfseries\color{white},
+  colframe=linuxtitlebar,
+  arc=6pt,
+  outer arc=6pt,
+  boxrule=1pt,
+  left=10pt,
+  right=10pt,
+  top=8pt,
+  bottom=8pt,
+  fonttitle=\bfseries\footnotesize\color{white},
   title={\faTerminal\enspace Linux Terminal},
   coltitle=white,
-  colbacktitle=linuxframe,
-  boxed title style={arc=3pt},
+  colbacktitle=linuxtitlebar,
+  attach boxed title to top left={xshift=6pt, yshift=-\tcboxedtitleheight/2},
+  boxed title style={
+    arc=4pt,
+    outer arc=4pt,
+    boxrule=0pt,
+    left=4pt,
+    right=4pt
+  },
   breakable,
-  listing only,
-  listing options={
-    language=,
-    basicstyle=\ttfamily\footnotesize\color{linuxwhite},
-    backgroundcolor=\color{linuxbg},
-    frame=none,
-    numbers=none,
-    showstringspaces=false,
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=2,
-    aboveskip=0pt,
-    belowskip=0pt,
-    xleftmargin=0pt,
-    xrightmargin=0pt,
-    % Comandos principales
-    morekeywords={
-      sudo, apt, update, install, which, ping, echo, cat, grep, head, tail,
-      chmod, cp, mv, rm, ls, cd, mkdir, netstat, ss, ps, kill, top,
-      systemctl, service, iptables, tcpdump, nmap, curl, wget,
-      tshark, wireshark, macof, nc, if, then, else, fi, for, do, done,
-      while, until, case, function, export, source, exit, return
-    },
-    keywordstyle=\bfseries\color{linuxcyan},
-    % Opciones y flags
-    morekeywords={[2]
-      -c, -i, -f, -u, -l, -y, -p, -n, -r, -4, -6, -v, -a, -h,
-      --help, --version, -la, -lh, -rf, --color, --recursive
-    },
-    keywordstyle={[2]\bfseries\color{linuxyellow}},
-    % Strings
-    stringstyle=\color{linuxgreen},
-    morestring=[b]",
-    morestring=[b]',
-    % Comentarios
-    morecomment=[l]{\#},
-    commentstyle=\color{linuxgray}\itshape,
-    % Prompts
-    moredelim=[s][\bfseries\color{linuxgreen}]{ccna@}{$},
-    moredelim=[s][\bfseries\color{linuxgreen}]{root@}{$},
-    moredelim=[s][\bfseries\color{linuxgreen}]{user@}{$},
-    moredelim=[s][\bfseries\color{linuxgreen}]{ubuntu@}{$}
-  }
+  before upper={\color{linuxwhite}\ttfamily\footnotesize},
+  after upper={},
+  fontupper=\ttfamily\footnotesize,
+  colupper=linuxwhite
+}
+
+% Hook para forzar estilos después de que Eisvogel cargue los suyos
+\AtBeginDocument{%
+  % Redefinir colores de listing para que bash-box funcione correctamente
+  % Esto asegura que nuestros estilos personalizados tengan prioridad
+}
+
+% Forzar aplicación de estilos en entornos específicos
+\BeforeBeginEnvironment{bash-box}{%
+  \lstset{style=linuxterminal}%
 }
 
 \newcommand{\forceloadstyles}{%
   \lstset{style=custom-cisco-style}%
-  \lstset{style=custom-bash-style}%
+  \lstset{style=linuxterminal}%
 }
