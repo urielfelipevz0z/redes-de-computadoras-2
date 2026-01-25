@@ -67,21 +67,6 @@ En las prácticas anteriores, las VLANs fueron configuradas manualmente en cada 
 
 ![Topología VTP](images/topology-vtp-01.png)
 
-**Figura 1:** Topología implementada con VTP para gestión centralizada de VLANs
-
-```
-                R1 (Router)
-                    |
-                  SW0 (VTP Server)
-                /   |   \
-               /    |    \
-    (VTP Client) SW1 SW2 SW3 (VTP Client)
-            /||\    ||   |||\
-          PC1||PC2  ||PC4|| PC7
-          PC3  \    ||PC5|| PC8
-               PC6      PC9
-```
-
 ## Configuración de Roles VTP
 
 | Switch | Rol VTP | Función | Configuración |
@@ -103,10 +88,6 @@ En las prácticas anteriores, las VLANs fueron configuradas manualmente en cada 
 # Configuración Inicial
 
 Se parte de la configuración completa de las prácticas anteriores con VLANs configuradas manualmente en todos los switches. Estas configuraciones serán reemplazadas por la gestión centralizada de VTP.
-
-::: warning-box
-**Importante:** La implementación de VTP puede sobrescribir configuraciones VLAN existentes. Se recomienda respaldar configuraciones antes de proceder.
-:::
 
 # Desarrollo Detallado
 
