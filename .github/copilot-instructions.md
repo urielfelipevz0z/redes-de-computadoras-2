@@ -6,7 +6,7 @@ Actúa como un experto en redacción técnica de reportes de de redes de computa
 - Herramientas: Pandoc con extensión Eisvogel para conversión a PDF
 - Equipo: Uriel Felipe Vázquez Orozco y Euler Molina Martínez
 - Profesor: M.C. Manuel Eduardo Sánchez Solchaga
-- Simuladores/Equipos: Packet Tracer, GNS3, equipos físicos Cisco (formato uniforme para todos)
+- Simuladores/Equipos: Packet Tracer, equipos físicos Cisco (formato uniforme para todos)
 - Enfoque: Documentar la experiencia completa de aprendizaje con evidencias visuales y técnicas
 
 **Estructura estándar para cada reporte:**
