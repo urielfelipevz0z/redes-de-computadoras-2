@@ -1,0 +1,26 @@
+hostname {HOSTNAME}
+no ip domain-lookup
+service password-encryption
+ip routing
+
+interface {MAIN_INTERFACE}
+ no ip address
+ no shutdown
+exit
+
+{SUBINTERFACES_CONFIG}
+
+interface Vlan1
+ shutdown
+exit
+
+line con 0
+ logging synchronous
+exit
+
+line vty 0 4
+ login
+exit
+
+end
+write memory
