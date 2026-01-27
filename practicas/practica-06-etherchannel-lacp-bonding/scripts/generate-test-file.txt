@@ -1,0 +1,20 @@
+# ==============================================================================
+# Generación de Archivo de Prueba para Transferencia
+# Práctica 06: EtherChannel LACP Bonding
+# ==============================================================================
+# Herramienta: dd (estándar en Linux)
+
+# Generar archivo de 500MB con ceros (compresible)
+sudo dd if=/dev/zero of=/var/www/html/test-file.bin bs=1M count=500 status=progress
+
+# Alternativa: Generar archivo con datos aleatorios (no compresible)
+sudo dd if=/dev/urandom of=/var/www/html/test-file.bin bs=1M count=500 status=progress
+
+# Alternativa más rápida: fallocate (solo reserva espacio)
+sudo fallocate -l 500M /var/www/html/test-file.bin
+
+# Establecer permisos de lectura
+sudo chmod 644 /var/www/html/test-file.bin
+
+# Verificar archivo creado
+ls -lh /var/www/html/test-file.bin

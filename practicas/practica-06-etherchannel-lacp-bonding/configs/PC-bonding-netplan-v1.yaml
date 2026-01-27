@@ -1,0 +1,33 @@
+# Configuración de bonding LACP en Linux (Netplan)
+# Práctica 06: EtherChannel LACP Bonding
+# Archivo: /etc/netplan/01-bonding.yaml
+#
+# Este archivo configura el bonding de dos interfaces de red
+# utilizando el modo 802.3ad (LACP) para agregación de enlaces.
+#
+# Interfaces físicas:
+#   - enp60s0: Interfaz Ethernet integrada
+#   - enx00e04c68cf39: Adaptador USB Ethernet
+#
+# Aplicar con: sudo netplan apply
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp60s0:
+      dhcp4: no
+    enx00e04c68cf39:
+      dhcp4: no
+  bonds:
+    bond0:
+      interfaces: [enp60s0, enx00e04c68cf39]
+      addresses: [192.168.1.10/24]
+      routes:
+        - to: default
+          via: 192.168.1.1
+      parameters:
+        mode: 802.3ad
+        mii-monitor-interval: 100
+        lacp-rate: fast
+        transmit-hash-policy: layer2+3

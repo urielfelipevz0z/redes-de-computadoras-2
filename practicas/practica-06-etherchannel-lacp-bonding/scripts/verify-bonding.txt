@@ -1,0 +1,41 @@
+# ==============================================================================
+# Verificación de Bonding en Linux
+# Práctica 06: EtherChannel LACP Bonding
+# ==============================================================================
+
+# Ver si el módulo bonding está cargado
+lsmod | grep bonding
+
+# Ver información completa del bond
+cat /proc/net/bonding/bond0
+
+# Ver interfaces de red
+ip link show
+
+# Ver dirección IP del bond
+ip addr show bond0
+
+# Ver estadísticas de transferencia
+cat /sys/class/net/bond0/statistics/rx_bytes
+cat /sys/class/net/bond0/statistics/tx_bytes
+
+# ==============================================================================
+# Verificación de EtherChannel en Cisco
+# ==============================================================================
+
+# Ver resumen de EtherChannel
+show etherchannel summary
+
+# Ver detalle del Port-Channel
+show etherchannel port-channel
+
+# Ver método de balanceo de carga
+show etherchannel load-balance
+
+# Ver estado de interfaz con carga de tráfico
+show interface FastEthernet0/1 | include load
+
+# Configurar balanceo por IP origen-destino
+configure terminal
+port-channel load-balance src-dst-ip
+exit
