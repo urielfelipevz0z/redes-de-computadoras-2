@@ -302,8 +302,6 @@ Sw2(config)# port-channel load-balance src-dst-ip
 Sw2(config)# exit
 :::
 
-![Configuración de balanceo por IP origen-destino](images/cli-etherchannel-balance-01.jpeg)
-
 ::: cisco-ios
 Sw1# show etherchannel load-balance
 EtherChannel Load-Balancing Configuration:
@@ -401,6 +399,8 @@ wget http://192.168.1.20/test-file.bin -O /tmp/test4.bin &
 :::
 
 Con múltiples conexiones, el tráfico se distribuyó entre ambos enlaces, aprovechando el ancho de banda agregado.
+
+![Prueba de balanceo con múltiples conexiones](images/cli-etherchannel-balance-01.jpeg)
 
 # Validación y Pruebas
 
