@@ -10,7 +10,7 @@ LOGO="../../FIE-Logo-Oro.png"
 
 # Colores institucionales FIE
 TITLE_COLOR="FFFFFF"
-RULE_COLOR="B8860B"  # Dorado FIE
+RULE_COLOR="FFD400"  # Dorado FIE
 
 # Archivo de entrada
 MAIN_FILE=$(basename "$(pwd)").md
